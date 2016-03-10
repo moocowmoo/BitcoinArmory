@@ -221,7 +221,7 @@ void DBBlock::setHeaderData(BinaryData const & header80B)
       return;
    }
    dataCopy_.copyFrom(header80B);
-   BtcUtils::getHash256(header80B, thisHash_);
+   BtcUtils::getHashX11(header80B, thisHash_);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -267,7 +267,7 @@ void StoredHeader::unserializeFullBlock(BinaryRefReader brr,
       throw BlockDeserializingException();
    }
 
-   BtcUtils::getHash256(dataCopy_, thisHash_);
+   BtcUtils::getHashX11(dataCopy_, thisHash_);
 
    for(uint32_t tx=0; tx<nTx; tx++)
    {
@@ -466,7 +466,7 @@ void DBBlock::unserializeDBValue( DB_SELECT         db,
       BinaryData hgtx = brr.get_BinaryData(4);
       blockHeight_ = DBUtils::hgtxToHeight(hgtx);
       duplicateID_ = DBUtils::hgtxToDupID(hgtx);
-      BtcUtils::getHash256(dataCopy_, thisHash_);
+      BtcUtils::getHashX11(dataCopy_, thisHash_);
       numBytes_ = brr.get_uint32_t();
    }
    else if(db==BLKDATA)
@@ -482,7 +482,7 @@ void DBBlock::unserializeDBValue( DB_SELECT         db,
    
       // Unserialize the raw header into the SBH object
       brr.get_BinaryData(dataCopy_, HEADER_SIZE);
-      BtcUtils::getHash256(dataCopy_, thisHash_);
+      BtcUtils::getHashX11(dataCopy_, thisHash_);
       numTx_    = brr.get_uint32_t();
       numBytes_ = brr.get_uint32_t();
 

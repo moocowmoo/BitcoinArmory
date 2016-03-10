@@ -686,7 +686,7 @@ private:
       
       is.read(rawHead.getCharPtr(), HEADER_SIZE);
       BinaryData h(32);
-      BtcUtils::getHash256(rawHead, h);
+      BtcUtils::getHashX11(rawHead, h);
       return h;
    }
 };

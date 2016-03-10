@@ -7,7 +7,7 @@
 ################################################################################
 from armoryengine.ArmoryUtils import UNINITIALIZED, UnitializedBlockDataError, \
    hash256, LITTLEENDIAN, BIGENDIAN, binary_switchEndian, binary_to_hex, \
-   binaryBits_to_difficulty
+   binaryBits_to_difficulty, hashX11
 from armoryengine.BDM import TheBDM
 from armoryengine.BinaryUnpacker import BinaryUnpacker
 from armoryengine.Transaction import BlockComponent, indent, PyTx
@@ -64,14 +64,14 @@ class PyBlockHeader(BlockComponent):
       self.timestamp   = blkData.get(UINT32)
       self.diffBits    = blkData.get(BINARY_CHUNK, 4)
       self.nonce       = blkData.get(UINT32)
-      self.theHash     = hash256(self.serialize())
+      self.theHash     = hashX11(self.serialize())
       return self
 
    def getHash(self, endian=LITTLEENDIAN):
       if self.version == UNINITIALIZED:
          raise UnitializedBlockDataError, 'PyBlockHeader object not initialized!'
       if len(self.theHash) < 32:
-         self.theHash = hash256(self.serialize())
+         self.theHash = hashX11(self.serialize())
       outHash = self.theHash
       if endian==BIGENDIAN:
          outHash = binary_switchEndian(outHash)
@@ -81,7 +81,7 @@ class PyBlockHeader(BlockComponent):
       if self.version == UNINITIALIZED:
          raise UnitializedBlockDataError, 'PyBlockHeader object not initialized!'
       if len(self.theHash) < 32:
-         self.theHash = hash256(self.serialize())
+         self.theHash = hashX11(self.serialize())
       return binary_to_hex(self.theHash, endian)
 
    def getDifficulty(self):

@@ -1818,6 +1818,8 @@ def ripemd160(bits):
    # It turns out that not all python has ripemd160...?
    #return hashlib.new('ripemd160', bits).digest()
    return Cpp.BtcUtils().ripemd160_SWIG(bits)
+def hashX11(s):
+   return Cpp.BtcUtils().getHashX11_SWIG(s)
 def hash256(s):
    """ Double-SHA256 """
    return sha256(sha256(s))

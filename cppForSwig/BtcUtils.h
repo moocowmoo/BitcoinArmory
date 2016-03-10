@@ -28,6 +28,7 @@
 #include "ripemd.h"
 #include "UniversalTimer.h"
 #include "log.h"
+#include "x11.h"
 
 class LedgerEntry;
 
@@ -280,6 +281,7 @@ public:
    
    // Block of code to be called by SWIG -- i.e. made available to python
    BtcUtils(void) {}
+   static BinaryData hashX11(BinaryData const & str) {return getHashX11(str);}
    static BinaryData hash256(BinaryData const & str) {return getHash256(str);}
    static BinaryData hash160(BinaryData const & str) {return getHash160(str);}
 
@@ -483,6 +485,51 @@ public:
       return out;
    }
 
+
+   /////////////////////////////////////////////////////////////////////////////
+   BinaryData getHashX11_SWIG(BinaryData const & strToHash)
+   {
+      return getHashX11(strToHash);
+   }
+   /////////////////////////////////////////////////////////////////////////////
+   static void getHashX11(BinaryData const & strToHash,
+                          BinaryData &       hashOutput)
+   {
+      getHashX11(strToHash.getPtr(), strToHash.getSize(), hashOutput);
+   }
+
+   /////////////////////////////////////////////////////////////////////////////
+   static BinaryData getHashX11(const BinaryDataRef& strToHash)
+   {
+      BinaryData hashOutput(32);
+      getHashX11(strToHash.getPtr(), strToHash.getSize(), hashOutput);
+      return hashOutput;
+   }
+
+   /////////////////////////////////////////////////////////////////////////////
+   static void getHashX11(uint8_t const * strToHash,
+                          size_t          nBytes,
+                          BinaryData &    hashOutput)
+   {
+      if(hashOutput.getSize() != 32)
+         hashOutput.resize(32);
+
+      uint256 x11hash = HashX11(strToHash, nBytes);
+      BinaryData result(x11hash.begin(), x11hash.end());
+      hashOutput.copyFrom(result.getRef());
+   }
+
+   /////////////////////////////////////////////////////////////////////////////
+   static void getHashX11_NoSafetyCheck(
+                          uint8_t const * strToHash,
+                          uint32_t        nBytes,
+                          BinaryData &    hashOutput)
+   {
+
+      uint256 x11hash = HashX11(strToHash, nBytes);
+      BinaryData result(x11hash.begin(), x11hash.end());
+      hashOutput.copyFrom(result.getRef());
+   }
 
    /////////////////////////////////////////////////////////////////////////////
    static void getHash256(uint8_t const * strToHash,

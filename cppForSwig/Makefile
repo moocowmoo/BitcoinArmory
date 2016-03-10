@@ -30,7 +30,10 @@ OBJS = UniversalTimer.o BinaryData.o lmdb_wrapper.o StoredBlockObj.o \
 	BtcWallet.o LedgerEntry.o ScrAddrObj.o Blockchain.o BlockWriteBatcher.o \
 	BDM_mainthread.o lmdbpp.o BDM_supportClasses.o \
 	BlockDataViewer.o HistoryPager.o Progress.o \
-	libcryptopp.a mdb.o midl.o txio.o
+	libcryptopp.a mdb.o midl.o txio.o \
+	x11.o blake.o bmw.o groestl.o jh.o keccak.o skein.o luffa.o cubehash.o \
+	shavite.o simd.o echo.o
+
 
 #if python is specified, use it
 ifndef PYVER
@@ -83,6 +86,43 @@ all: ../_CppBlockUtils.so ../qrc_img_resources.py
 
 
 #**************************************************************************
+
+x11.o: x11.cpp
+	$(CXX) $(CXXCPP) $(CXXFLAGS) $(CFLAGS) -c $<
+
+blake.o: crypto/blake.c crypto/sph_blake.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+bmw.o: crypto/bmw.c crypto/sph_bmw.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+groestl.o: crypto/groestl.c crypto/sph_groestl.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+jh.o: crypto/jh.c crypto/sph_jh.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+keccak.o: crypto/keccak.c crypto/sph_keccak.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+skein.o: crypto/skein.c crypto/sph_skein.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+luffa.o: crypto/luffa.c crypto/sph_luffa.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+cubehash.o: crypto/cubehash.c crypto/sph_cubehash.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+shavite.o: crypto/shavite.c crypto/sph_shavite.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+simd.o: crypto/simd.c crypto/sph_simd.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
+echo.o: crypto/echo.c crypto/sph_echo.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+
 libcryptopp.a: Makefile
 	$(MAKE) -C cryptopp libcryptopp.a
 	mv cryptopp/libcryptopp.a .

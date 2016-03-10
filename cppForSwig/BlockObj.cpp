@@ -28,7 +28,7 @@ void BlockHeader::unserialize(uint8_t const * ptr, uint32_t size)
    if (size < HEADER_SIZE)
       throw BlockDeserializingException();
    dataCopy_.copyFrom(ptr, HEADER_SIZE);
-   BtcUtils::getHash256(dataCopy_.getPtr(), HEADER_SIZE, thisHash_);
+   BtcUtils::getHashX11(dataCopy_.getPtr(), HEADER_SIZE, thisHash_);
    difficultyDbl_ = BtcUtils::convertDiffBitsToDouble( 
                               BinaryDataRef(dataCopy_.getPtr()+72, 4));
    isInitialized_ = true;
@@ -115,7 +115,7 @@ int64_t BlockHeader::findNonce(const char* inDiffStr)
          for(uint32_t nonce=startAt; nonce<stopAt; nonce++)
          {
             *(uint32_t*)(playHeader.getPtr()+76) = nonce;
-            BtcUtils::getHash256_NoSafetyCheck(playHeader.getPtr(), HEADER_SIZE,
+            BtcUtils::getHashX11_NoSafetyCheck(playHeader.getPtr(), HEADER_SIZE,
                                                hashResult);
             const CryptoPP::Integer hashRes((hashResult.swapEndian()).getPtr(),
                                             hashResult.getSize());

@@ -175,7 +175,7 @@ struct PulledBlock : public DBBlock
          throw BlockDeserializingException();
       }
 
-      BtcUtils::getHash256(dataCopy_, thisHash_);
+      BtcUtils::getHashX11(dataCopy_, thisHash_);
 
       for (uint32_t tx = 0; tx<nTx; tx++)
       {
