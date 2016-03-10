@@ -487,9 +487,9 @@ if not USE_TESTNET:
    PRIVKEYBYTE = '\xcc'
 
    # This will usually just be used in the GUI to make links for the user
-   BLOCKEXPLORE_NAME     = 'blockchain.info'
-   BLOCKEXPLORE_URL_TX   = 'https://blockchain.info/tx/%s'
-   BLOCKEXPLORE_URL_ADDR = 'https://blockchain.info/address/%s'
+   BLOCKEXPLORE_NAME     = 'chainz.cryptoid.info'
+   BLOCKEXPLORE_URL_TX   = 'https://chainz.cryptoid.info/dash/tx.dws?%s'
+   BLOCKEXPLORE_URL_ADDR = 'https://chainz.cryptoid.info/dash/ads.dws?%s'
 else:
    BITCOIN_PORT = 18333
    BITCOIN_RPC_PORT = 18332
@@ -504,9 +504,12 @@ else:
    PRIVKEYBYTE = '\xcc'
 
    # 
-   BLOCKEXPLORE_NAME     = 'blockexplorer.com'
-   BLOCKEXPLORE_URL_TX   = 'http://blockexplorer.com/testnet/tx/%s'
-   BLOCKEXPLORE_URL_ADDR = 'http://blockexplorer.com/testnet/address/%s'
+   BLOCKEXPLORE_NAME     = 'explorer.dashninja.pl'
+   BLOCKEXPLORE_URL_TX   = 'http://explorer.dashninja.pl/tx/%s'
+   BLOCKEXPLORE_URL_ADDR = 'http://explorer.dashninja.pl/address/%s'
+
+
+
 
 # These are the same regardless of network
 # They are the way data is stored in the database which is network agnostic
