@@ -102,13 +102,13 @@ class ArmoryMainWindow(QMainWindow):
       # SETUP THE WINDOWS DECORATIONS
       self.lblLogoIcon = QLabel()
       if USE_TESTNET:
-         self.setWindowTitle('Armory - Bitcoin Wallet Management [TESTNET] dlgMain')
+         self.setWindowTitle('Armory - Dash Wallet Management [TESTNET] dlgMain')
          self.iconfile = ':/armory_icon_green_32x32.png'
          self.lblLogoIcon.setPixmap(QPixmap(':/armory_logo_green_h56.png'))
          if Colors.isDarkBkgd:
             self.lblLogoIcon.setPixmap(QPixmap(':/armory_logo_white_text_green_h56.png'))
       else:
-         self.setWindowTitle('Armory - Bitcoin Wallet Management')
+         self.setWindowTitle('Armory - Dash Wallet Management')
          self.iconfile = ':/armory_icon_32x32.png'
          self.lblLogoIcon.setPixmap(QPixmap(':/armory_logo_h44.png'))
          if Colors.isDarkBkgd:
@@ -176,7 +176,7 @@ class ArmoryMainWindow(QMainWindow):
       self.tempModulesDirName = None
       self.internetStatus = None
 
-      # We only need a single connection to bitcoind since it's a
+      # We only need a single connection to dashd since it's a
       # reconnecting connection, so we keep it around.
       self.SingletonConnectedNetworkingFactory = None
 
@@ -432,9 +432,9 @@ class ArmoryMainWindow(QMainWindow):
       self.lblSpd.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
       self.lblUcn.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
 
-      self.lblBTC1 = QRichLabel('<b>BTC</b>', doWrap=False)
-      self.lblBTC2 = QRichLabel('<b>BTC</b>', doWrap=False)
-      self.lblBTC3 = QRichLabel('<b>BTC</b>', doWrap=False)
+      self.lblBTC1 = QRichLabel('<b>DASH</b>', doWrap=False)
+      self.lblBTC2 = QRichLabel('<b>DASH</b>', doWrap=False)
+      self.lblBTC3 = QRichLabel('<b>DASH</b>', doWrap=False)
       self.ttipTot = self.createToolTipWidget( \
             'Funds if all current transactions are confirmed.  '
             'Value appears gray when it is the same as your spendable funds.')
@@ -545,8 +545,8 @@ class ArmoryMainWindow(QMainWindow):
 
       self.lbDialog = None
 
-      btnSendBtc   = QPushButton(tr("Send Bitcoins"))
-      btnRecvBtc   = QPushButton(tr("Receive Bitcoins"))
+      btnSendBtc   = QPushButton(tr("Send Dash"))
+      btnRecvBtc   = QPushButton(tr("Receive Dash"))
       btnWltProps  = QPushButton(tr("Wallet Properties"))
       btnOfflineTx = QPushButton(tr("Offline Transactions"))
       btnMultisig  = QPushButton(tr("Lockboxes (Multi-Sig)"))
@@ -679,7 +679,7 @@ class ArmoryMainWindow(QMainWindow):
       def openBlindBroad():
          if not satoshiIsAvailable():
             QMessageBox.warning(self, tr("Not Online"), tr("""
-               Bitcoin Core is not available, so Armory will not be able
+               Dash Core is not available, so Armory will not be able
                to broadcast any transactions for you."""), QMessageBox.Ok)
             return
          DlgBroadcastBlindTx(self,self).exec_()
@@ -866,9 +866,9 @@ class ArmoryMainWindow(QMainWindow):
       
       # This is true if and only if the command line has a bitcoin dir that doesn't exist
       if not CLI_OPTIONS.satoshiHome in [BTC_HOME_DIR, DEFAULT]:
-         QMessageBox.warning(self, tr('Bitcoin Directory'), tr("""
-            Armory is using the default Bitcoin directory because
-            the Bitcoin director specified in the command line, could
+         QMessageBox.warning(self, tr('Dash Directory'), tr("""
+            Armory is using the default Dash directory because
+            the Dash directory specified in the command line, could
             not be found."""), QMessageBox.Ok)
          
       if not self.getSettingOrSetDefault('DNAA_DeleteLevelDB', False) and \
@@ -1158,8 +1158,8 @@ class ArmoryMainWindow(QMainWindow):
          be cleared allowing you to retry any stuck transactions.""")
       if not self.doAutoBitcoind:
          msg += tr("""
-         <br><br>Make sure you also restart Bitcoin-Qt
-         (or bitcoind) and let it synchronize again before you restart
+         <br><br>Make sure you also restart Dash-Qt
+         (or dashd) and let it synchronize again before you restart
          Armory.  Doing so will clear its memory pool, as well""")
       QMessageBox.information(self, tr('Memory Pool'), msg, QMessageBox.Ok)
 
@@ -1428,8 +1428,8 @@ class ArmoryMainWindow(QMainWindow):
          self.clickReceiveCoins()
 
       actShowArmory = self.createAction('Show Armory', self.bringArmoryToFront)
-      actSendBtc    = self.createAction('Send Bitcoins', traySend)
-      actRcvBtc     = self.createAction('Receive Bitcoins', trayRecv)
+      actSendBtc    = self.createAction('Send Dash', traySend)
+      actRcvBtc     = self.createAction('Receive Dash', trayRecv)
       actClose      = self.createAction('Quit Armory', self.closeForReal)
       # Create a short menu of options
       menu.addAction(actShowArmory)
@@ -1954,7 +1954,7 @@ class ArmoryMainWindow(QMainWindow):
       try:
          peerInfo = armoryClient.peerInfo
       except: 
-         LOGERROR("failed to process alerts from bitcoind")
+         LOGERROR("failed to process alerts from dashd")
          return
 
       for id, alert in alerts.items():
@@ -1967,7 +1967,7 @@ class ArmoryMainWindow(QMainWindow):
             continue
          if peerInfo["subver"] not in alert.subVerSet:
             continue
-         title = "Bitcoin alert %s" % alert.uniqueID
+         title = "Dash alert %s" % alert.uniqueID
          alert_str = "%s<br>%s<br>%s<br>" % (alert.statusBar, alert.comment, alert.reserved)
          msg = "This alert has been received from the bitcoin network:<p>" + \
                alert_str + \
@@ -2075,7 +2075,7 @@ class ArmoryMainWindow(QMainWindow):
                if not self.NetworkingFactory:
                   return
 
-               # This is to detect the running versions of Bitcoin-Qt/bitcoind
+               # This is to detect the running versions of Dash-Qt/dashd
                if self.NetworkingFactory.getProto():
                   thisVerStr = self.NetworkingFactory.getProto().peerInfo['subver']
                   thisVerStr = thisVerStr.strip('/').split(':')[-1]
@@ -2331,71 +2331,71 @@ class ArmoryMainWindow(QMainWindow):
 
       if not satoshiIsAvailable():
          reply = MsgBoxCustom(MSGBOX.Question, tr('BitTorrent Option'), tr("""
-            You are currently configured to run the core Bitcoin software
-            yourself (Bitcoin-Qt or bitcoind).  <u>Normally</u>, you should
-            start the Bitcoin software first and wait for it to synchronize
+            You are currently configured to run the core Dash software
+            yourself (Dash-Qt or dashd).  <u>Normally</u>, you should
+            start the Dash software first and wait for it to synchronize
             with the network before starting Armory.
             <br><br>
             <b>However</b>, Armory can shortcut most of this initial
             synchronization
             for you using BitTorrent.  If your firewall allows it,
             using BitTorrent can be an order of magnitude faster (2x to 20x)
-            than letting the Bitcoin software download it via P2P.
+            than letting the Dash software download it via P2P.
             <br><br>
             <u>To synchronize using BitTorrent (recommended):</u>
             Click "Use BitTorrent" below, and <u>do not</u> start the Bitcoin
             software until after it is complete.
             <br><br>
-            <u>To synchronize using Bitcoin P2P (fallback):</u>
-            Click "Cancel" below, then close Armory and start Bitcoin-Qt
-            (or bitcoind).  Do not start Armory until you see a green checkmark
-            in the bottom-right corner of the Bitcoin-Qt window."""), \
+            <u>To synchronize using Dash P2P (fallback):</u>
+            Click "Cancel" below, then close Armory and start Dash-Qt
+            (or dashd).  Do not start Armory until you see a green checkmark
+            in the bottom-right corner of the Dash-Qt window."""), \
             wCancel=True, yesStr='Use BitTorrent')
 
          if not reply:
             QMessageBox.warning(self, tr('Synchronize'), tr("""
                When you are ready to start synchronization, close Armory and
-               start Bitcoin-Qt or bitcoind.  Restart Armory only when
-               synchronization is complete.  If using Bitcoin-Qt, you will see
+               start Dash-Qt or dashd  Restart Armory only when
+               synchronization is complete.  If using Dash-Qt, you will see
                a green checkmark in the bottom-right corner"""), QMessageBox.Ok)
             return False
 
       else:
          reply = MsgBoxCustom(MSGBOX.Question, tr('BitTorrent Option'), tr("""
-            You are currently running the core Bitcoin software, but it
+            You are currently running the core Dash software, but it
             is not fully synchronized with the network, yet.  <u>Normally</u>,
-            you should close Armory until Bitcoin-Qt (or bitcoind) is
+            you should close Armory until Dash-Qt (or dashd) is
             finished
             <br><br>
             <b><u>However</u></b>, Armory can speed up this initial
             synchronization for you using BitTorrent.  If your firewall
             allows it, using BitTorrent can be an order of magnitude
             faster (2x to 20x)
-            than letting the Bitcoin software download it via P2P.
+            than letting the Dash software download it via P2P.
             <br><br>
             <u>To synchronize using BitTorrent (recommended):</u>
-            Close the running Bitcoin software <b>right now</b>.  When it is
-            closed, click "Use BitTorrent" below.  Restart the Bitcoin software
+            Close the running Dash software <b>right now</b>.  When it is
+            closed, click "Use BitTorrent" below.  Restart the Dash software
             when Armory indicates it is complete.
             <br><br>
-            <u>To synchronize using Bitcoin P2P (fallback):</u>
+            <u>To synchronize using Dash P2P (fallback):</u>
             Click "Cancel" below, and then close Armory until the Bitcoin
-            software is finished synchronizing.  If using Bitcoin-Qt, you
+            software is finished synchronizing.  If using Dash-Qt, you
             will see a green checkmark in the bottom-right corner of the
             main window."""), QMessageBox.Ok)
 
          if reply:
             if satoshiIsAvailable():
                QMessageBox.warning(self, tr('Still Running'), tr("""
-                  The Bitcoin software still appears to be open!
+                  The Dash software still appears to be open!
                   Close it <b>right now</b>
                   before clicking "Ok."  The BitTorrent engine will start
                   as soon as you do."""), QMessageBox.Ok)
          else:
             QMessageBox.warning(self, tr('Synchronize'), tr("""
                You chose to finish synchronizing with the network using
-               the Bitcoin software which is already running.  Please close
-               Armory until it is finished.  If you are running Bitcoin-Qt,
+               the Dash software which is already running.  Please close
+               Armory until it is finished.  If you are running Dash-Qt,
                you will see a green checkmark in the bottom-right corner,
                when it is time to open Armory again."""), QMessageBox.Ok)
             return False
@@ -2441,15 +2441,15 @@ class ArmoryMainWindow(QMainWindow):
    def startBitcoindIfNecessary(self):
       LOGINFO('startBitcoindIfNecessary')
       if self.internetStatus == INTERNET_STATUS.Unavailable or CLI_OPTIONS.offline:
-         LOGWARN('Not online, will not start bitcoind')
+         LOGWARN('Not online, will not start dashd')
          return False
 
       if not self.doAutoBitcoind:
-         LOGWARN('Tried to start bitcoind, but ManageSatoshi==False')
+         LOGWARN('Tried to start dashd, but ManageSatoshi==False')
          return False
 
       if satoshiIsAvailable():
-         LOGWARN('Tried to start bitcoind, but satoshi already running')
+         LOGWARN('Tried to start dashd, but satoshi already running')
          return False
 
       self.setSatoshiPaths()
@@ -2468,10 +2468,10 @@ class ArmoryMainWindow(QMainWindow):
 
       try:
          # "satexe" is actually just the install directory, not the direct
-         # path the executable.  That dir tree will be searched for bitcoind
+         # path the executable.  That dir tree will be searched for dashd
          TheSDM.setupSDM(extraExeSearch=self.satoshiExeSearchPath)
          TheSDM.startBitcoind(self.notifyBitcoindIsReady)
-         LOGDEBUG('Bitcoind started without error')
+         LOGDEBUG('dashd started without error')
          return True
       except:
          LOGEXCEPT('Failed to setup SDM')
@@ -2494,7 +2494,7 @@ class ArmoryMainWindow(QMainWindow):
       # it if it doesn't exist
       if self.settings.hasSetting('SatoshiExe'):
          if not os.path.exists(self.settings.get('SatoshiExe')):
-            LOGERROR('Bitcoin installation setting is a non-existent directory')
+            LOGERROR('Dash installation setting is a non-existent directory')
          self.satoshiExeSearchPath = [self.settings.get('SatoshiExe')]
       else:
          self.satoshiExeSearchPath = []
@@ -2570,9 +2570,9 @@ class ArmoryMainWindow(QMainWindow):
                return
 
             try:
-               self.showTrayMsg('Disconnected', 'Connection to Bitcoin-Qt ' \
+               self.showTrayMsg('Disconnected', 'Connection to Dash-Qt ' \
 			                    'client lost!  Armory cannot send nor ' \
-								'receive bitcoins until connection is ' \
+								'receive dash until connection is ' \
 								're-established.', QSystemTrayIcon.Critical, \
 								10000)
             except:
@@ -2591,7 +2591,7 @@ class ArmoryMainWindow(QMainWindow):
 
             try:
                if self.connectCount>0:
-                  self.showTrayMsg('Connected', 'Connection to Bitcoin-Qt ' \
+                  self.showTrayMsg('Connected', 'Connection to Dash-Qt ' \
                                    're-established', \
 								   QSystemTrayIcon.Information, 10000)
                self.connectCount += 1
@@ -2648,7 +2648,7 @@ class ArmoryMainWindow(QMainWindow):
             'You %sed on a "bitcoin:" link, but Armory is in '
             'offline mode, and is not capable of creating transactions. '
             '%sing links will only work if Armory is connected '
-            'to the Bitcoin network!' % (clickOrEnter, ClickOrEnter), \
+            'to the Dash network!' % (clickOrEnter, ClickOrEnter), \
              QMessageBox.Ok)
          return {}
 
@@ -3244,7 +3244,7 @@ class ArmoryMainWindow(QMainWindow):
          goodColor= htmlColor('TextGreen')
          self.lblTotalFunds.setText( '<b><font color="%s">%s</font></b>' % (btccolor,coin2str(totalFunds)))
          self.lblTot.setText('<b><font color="%s">Maximum Funds:</font></b>' % lblcolor)
-         self.lblBTC1.setText('<b><font color="%s">BTC</font></b>' % lblcolor)
+         self.lblBTC1.setText('<b><font color="%s">DASH</font></b>' % lblcolor)
          self.lblSpendFunds.setText( '<b><font color=%s>%s</font></b>' % (goodColor, coin2str(spendFunds)))
          self.lblUnconfFunds.setText('<b><font color="%s">%s</font></b>' % \
                                              (uncolor, coin2str(unconfFunds)))
@@ -3641,7 +3641,7 @@ class ArmoryMainWindow(QMainWindow):
       else:
          msgConfirm = ( \
             'Armory must scan the global transaction history in order to '
-            'find any bitcoins associated with the %s you supplied. '
+            'find any dash associated with the %s you supplied. '
             'Armory will go into offline mode temporarily while the scan '
             'is performed, and you will not have access to balances or be '
             'able to create transactions.  The scan may take several minutes.'
@@ -3757,7 +3757,7 @@ class ArmoryMainWindow(QMainWindow):
 
                QMessageBox.warning(self, tr('Transaction Not Accepted'), tr("""
                   The transaction that you just executed, does not 
-                  appear to have been accepted by the Bitcoin network yet. 
+                  appear to have been accepted by the Dash network yet. 
                   This can happen for a variety of reasons.  
                   <br><br>On some occasions the transaction actually will succeed 
                   and this message is displayed prematurely.  To confirm whether the 
@@ -4014,7 +4014,7 @@ class ArmoryMainWindow(QMainWindow):
       selectionMade = True
       if len(self.walletMap)==0:
          reply = QMessageBox.information(self, 'No Wallets!', \
-            'You cannot send any bitcoins until you create a wallet and '
+            'You cannot send any dash until you create a wallet and '
             'receive some coins.  Would you like to create a wallet?', \
             QMessageBox.Yes | QMessageBox.No)
          if reply==QMessageBox.Yes:
@@ -4025,7 +4025,7 @@ class ArmoryMainWindow(QMainWindow):
 
    #############################################################################
    def uriSendBitcoins(self, uriDict):
-      # Because Bitcoin-Qt doesn't store the message= field we have to assume
+      # Because Dash-Qt doesn't store the message= field we have to assume
       # that the label field holds the Tx-info.  So we concatenate them for
       # the display message
       uri_has = lambda s: uriDict.has_key(s)
@@ -4042,7 +4042,7 @@ class ArmoryMainWindow(QMainWindow):
          newMsg = uriDict['label']
 
       descrStr = ''
-      descrStr = ('You just clicked on a "bitcoin:" link requesting bitcoins '
+      descrStr = ('You just clicked on a "dash:" link requesting dash '
                 'to be sent to the following address:<br> ')
 
       descrStr += '<br>--<b>Address</b>:\t%s ' % uriDict['address']
@@ -4057,7 +4057,7 @@ class ArmoryMainWindow(QMainWindow):
       if uri_has('amount'):
          amt     = uriDict['amount']
          amtstr  = coin2str(amt, maxZeros=1)
-         descrStr += '<br>--<b>Amount</b>:\t%s BTC' % amtstr
+         descrStr += '<br>--<b>Amount</b>:\t%s DASH' % amtstr
 
 
       if newMsg:
@@ -4100,7 +4100,7 @@ class ArmoryMainWindow(QMainWindow):
       if len(self.walletMap)==0:
          reply = QMessageBox.information(self, 'No Wallets!', \
             'You have not created any wallets which means there is nowhere to '
-            'store you bitcoins!  Would you like to create a wallet now?', \
+            'store your dash!  Would you like to create a wallet now?', \
             QMessageBox.Yes | QMessageBox.No)
          if reply==QMessageBox.Yes:
             self.startWalletWizard()
@@ -4312,7 +4312,7 @@ class ArmoryMainWindow(QMainWindow):
          bitcoindStat = self.lookForBitcoind()
          if bitcoindStat=='Running':
             result = QMessageBox.warning(self, tr('Already running!'), tr("""
-               The Bitcoin software appears to be installed now, but it
+               The Dash software appears to be installed now, but it
                needs to be closed for Armory to work.  Would you like Armory
                to close it for you?"""), QMessageBox.Yes | QMessageBox.No)
             if result==QMessageBox.Yes:
@@ -4320,14 +4320,14 @@ class ArmoryMainWindow(QMainWindow):
                self.startBitcoindIfNecessary()
          elif bitcoindStat=='StillMissing':
             QMessageBox.warning(self, tr('Still Missing'), tr("""
-               The Bitcoin software still appears to be missing.  If you
+               The Dash software still appears to be missing.  If you
                just installed it, then please adjust your settings to point
                to the installation directory."""), QMessageBox.Ok)
          self.startBitcoindIfNecessary()
       elif self.doAutoBitcoind and not TheSDM.isRunningBitcoind():
          if satoshiIsAvailable():
             result = QMessageBox.warning(self, tr('Still Running'), tr("""
-               'Bitcoin-Qt is still running.  Armory cannot start until
+               'Dash-Qt is still running.  Armory cannot start until
                'it is closed.  Do you want Armory to close it for you?"""), \
                QMessageBox.Yes | QMessageBox.No)
             if result==QMessageBox.Yes:
@@ -4446,12 +4446,12 @@ class ArmoryMainWindow(QMainWindow):
          lbl.setOpenExternalLinks(True)
 
       # Set up an array of buttons in the middle of the dashboard, to be used
-      # to help the user install bitcoind.
+      # to help the user install dashd
       self.lblDashBtnDescr = QRichLabel('')
       self.lblDashBtnDescr.setOpenExternalLinks(True)
       BTN,LBL,TTIP = range(3)
       self.dashBtns = [[None]*3 for i in range(5)]
-      self.dashBtns[DASHBTNS.Close   ][BTN] = QPushButton('Close Bitcoin Process')
+      self.dashBtns[DASHBTNS.Close   ][BTN] = QPushButton('Close Dash Process')
       self.dashBtns[DASHBTNS.Install ][BTN] = QPushButton('Download Bitcoin')
       self.dashBtns[DASHBTNS.Browse  ][BTN] = QPushButton('Open www.bitcoin.org')
       self.dashBtns[DASHBTNS.Instruct][BTN] = QPushButton('Installation Instructions')
@@ -4505,27 +4505,27 @@ class ArmoryMainWindow(QMainWindow):
                                                      #self.openInstructWindow)
 
       self.dashBtns[DASHBTNS.Close][LBL] = QRichLabel( \
-           'Stop existing Bitcoin processes so that Armory can open its own')
+           'Stop existing Dash processes so that Armory can open its own')
       self.dashBtns[DASHBTNS.Browse][LBL]     = QRichLabel( \
-           'Open browser to Bitcoin webpage to download and install Bitcoin software')
+           'Open browser to Dash webpage to download and install Dash software')
       self.dashBtns[DASHBTNS.Instruct][LBL] = QRichLabel( \
-           'Instructions for manually installing Bitcoin for operating system')
+           'Instructions for manually installing Dash for operating system')
       self.dashBtns[DASHBTNS.Settings][LBL]  = QRichLabel( \
-           'Open Armory settings window to change Bitcoin software management')
+           'Open Armory settings window to change Dash software management')
 
 
       self.dashBtns[DASHBTNS.Browse][TTIP] = self.createToolTipWidget( \
            'Will open your default browser to http://www.bitcoin.org where you can '
-           'download the latest version of Bitcoin-Qt, and get other information '
+           'download the latest version of Dash-Qt, and get other information '
            'and links about Bitcoin, in general.')
       self.dashBtns[DASHBTNS.Instruct][TTIP] = self.createToolTipWidget( \
            'Instructions are specific to your operating system and include '
            'information to help you verify you are installing the correct software')
       self.dashBtns[DASHBTNS.Settings][TTIP] = self.createToolTipWidget(
-           'Change Bitcoin-Qt/bitcoind management settings or point Armory to '
-           'a non-standard Bitcoin installation')
+           'Change Dash-Qt/dashd management settings or point Armory to '
+           'a non-standard Dash installation')
       self.dashBtns[DASHBTNS.Close][TTIP] = self.createToolTipWidget( \
-           'Armory has detected a running Bitcoin-Qt or bitcoind instance and '
+           'Armory has detected a running Dash-Qt or dashd instance and '
            'will force it to exit')
 
       self.dashBtns[DASHBTNS.Install][BTN].setEnabled(False)
@@ -4538,7 +4538,7 @@ class ArmoryMainWindow(QMainWindow):
          self.dashBtns[DASHBTNS.Install][BTN].setEnabled(True)
          self.dashBtns[DASHBTNS.Install][LBL] = QRichLabel('')
          self.dashBtns[DASHBTNS.Install][LBL].setText( \
-            'Securely download Bitcoin software for Windows %s' % OS_VARIANT[0])
+            'Securely download Dash software for Windows %s' % OS_VARIANT[0])
          self.dashBtns[DASHBTNS.Install][TTIP] = self.createToolTipWidget( \
             'The downloaded files are cryptographically verified.  '
             'Using this option will start the installer, you will '
@@ -4556,9 +4556,9 @@ class ArmoryMainWindow(QMainWindow):
          if dist[0] in ['Ubuntu','LinuxMint'] or 'debian' in dist:
             self.dashBtns[DASHBTNS.Install][BTN].setEnabled(True)
             self.dashBtns[DASHBTNS.Install][LBL] = QRichLabel( tr("""
-               Download and Install Bitcoin Core for Ubuntu/Debian"""))
+               Download and Install Dash Core for Ubuntu/Debian"""))
             self.dashBtns[DASHBTNS.Install][TTIP] = self.createToolTipWidget( tr("""
-               'Will download and Bitcoin software and cryptographically verify it"""))
+               'Will download and Dash software and cryptographically verify it"""))
       elif OS_MACOSX:
          pass
       else:
@@ -4854,13 +4854,13 @@ class ArmoryMainWindow(QMainWindow):
                self.btnSecureDLSatoshi.setVisible(False)
                self.icoSatoshiSWVersion.setPixmap(dispIcon)
                self.lblSatoshiSWVersion.setText(tr(""" You are using
-                  the latest version of core Bitcoin (%s)""") % satCurrStr)
+                  the latest version of core Dash (%s)""") % satCurrStr)
             else:
                dispIcon = QPixmap(iconWarnFile).scaled(24,24)
                self.btnSecureDLSatoshi.setVisible(True)
                self.icoSatoshiSWVersion.setPixmap(dispIcon)
                self.lblSatoshiSWVersion.setText(tr("""
-                  <b>There is a newer version of the core Bitcoin software
+                  <b>There is a newer version of the core Dash software
                   available!</b>"""))
          elif satCurrent:
             # satLatest is not available
@@ -4868,13 +4868,13 @@ class ArmoryMainWindow(QMainWindow):
             self.btnSecureDLSatoshi.setVisible(False)
             self.icoSatoshiSWVersion.setPixmap(None)
             self.lblSatoshiSWVersion.setText(tr(""" You are using
-               core Bitcoin version %s""") % satCurrStr)
+               core Dash version %s""") % satCurrStr)
          elif satLatest:
             # only satLatest is avail (maybe offline)
             dispIcon = QPixmap(iconSatoshi).scaled(24,24)
             self.btnSecureDLSatoshi.setVisible(True)
             self.icoSatoshiSWVersion.setPixmap(dispIcon)
-            self.lblSatoshiSWVersion.setText(tr("""Core Bitcoin version
+            self.lblSatoshiSWVersion.setText(tr("""Core Dash version
                %s is available.""") % satLastStr)
          else:
             # only satLatest is avail (maybe offline)
@@ -4970,7 +4970,7 @@ class ArmoryMainWindow(QMainWindow):
 
       # If got here, never found it
       QMessageBox.warning(self, 'Not Found', \
-         'Attempted to kill the running Bitcoin-Qt/bitcoind instance, '
+         'Attempted to kill the running Dash-Qt/dashd instance, '
          'but it was not found.  ', QMessageBox.Ok)
 
    #############################################################################
@@ -5263,7 +5263,7 @@ class ArmoryMainWindow(QMainWindow):
          '<li>Sign transactions created from an online system</li>'
          '<li>Sign messages</li>'
          '</ul>'
-         '<br><br><b>NOTE:</b>  The Bitcoin network <u>will</u> process transactions '
+         '<br><br><b>NOTE:</b>  The Dash network <u>will</u> process transactions '
          'to your addresses, even if you are offline.  It is perfectly '
          'okay to create and distribute payment addresses while Armory is offline, '
          'you just won\'t be able to verify those payments until the next time '
@@ -5280,7 +5280,7 @@ class ArmoryMainWindow(QMainWindow):
          '<li>Sign messages</li>'
          '<li><b>Sign transactions created from an online system</b></li>'
          '</ul>'
-         '<br><br><b>NOTE:</b>  The Bitcoin network <u>will</u> process transactions '
+         '<br><br><b>NOTE:</b>  The Dash network <u>will</u> process transactions '
          'to your addresses, regardless of whether you are online.  It is perfectly '
          'okay to create and distribute payment addresses while Armory is offline, '
          'you just won\'t be able to verify those payments until the next time '
@@ -5290,7 +5290,7 @@ class ArmoryMainWindow(QMainWindow):
          '<ul>'
          '<li>Create, import or recover Armory wallets</li>'
          '<li>Generate new addresses to receive coins</li>'
-         '<li>Send bitcoins to other people</li>'
+         '<li>Send dash to other people</li>'
          '<li>Create one-time backups of your wallets (in printed or digital form)</li>'
          '<li>Click on "bitcoin:" links in your web browser '
             '(not supported on all operating systems)</li>'
@@ -5313,7 +5313,7 @@ class ArmoryMainWindow(QMainWindow):
       # A few states don't care which mgmtMode you are in...
       if state == 'NewUserInfo':
          return tr("""
-         For more information about Armory, and even Bitcoin itself, you should
+         For more information about Armory, and even Dash itself, you should
          visit the <a href="https://bitcoinarmory.com/faq/">frequently
          asked questions page</a>.  If
          you are experiencing problems using this software, please visit the
@@ -5326,7 +5326,7 @@ class ArmoryMainWindow(QMainWindow):
          hard-drive failure, and make it easy for your family to recover
          your funds if something terrible happens to you.  <i>Each wallet
          only needs to be backed up once, ever!</i>  Without it, you are at
-         risk of losing all of your Bitcoins!  For more information,
+         risk of losing all of your Dash!  For more information,
          visit the <a href="https://bitcoinarmory.com/armory-backups-are-forever/">Armory
          Backups page</a>.
          <br><br>
@@ -5341,15 +5341,15 @@ class ArmoryMainWindow(QMainWindow):
          '<p><b>You now have access to all the features Armory has to offer!</b><br>'
          'To see your balances and transaction history, please click '
          'on the "Transactions" tab above this text.  <br>'
-         'Here\'s some things you can do with Armory Bitcoin Client:'
+         'Here\'s some things you can do with Armory Dash Client:'
          '<br>')
       elif state == 'OnlineFull2':
          return ( \
          (tr('If you experience any performance issues with Armory, '
-         'please confirm that Bitcoin-Qt is running and <i>fully '
-         'synchronized with the Bitcoin network</i>.  You will see '
+         'please confirm that Dash-Qt is running and <i>fully '
+         'synchronized with the Dash network</i>.  You will see '
          'a green checkmark in the bottom right corner of the '
-         'Bitcoin-Qt window if it is synchronized.  If not, it is '
+         'Dash-Qt window if it is synchronized.  If not, it is '
          'recommended you close Armory and restart it only when you '
          'see that checkmark.'
          '<br><br>')  if not self.doAutoBitcoind else '') + tr(
@@ -5386,7 +5386,7 @@ class ArmoryMainWindow(QMainWindow):
       elif state == 'OfflineNoSatoshiNoInternet':
          return tr( \
          'There is no connection to the internet, and there is no other '
-         'Bitcoin software running.  Most likely '
+         'Dash software running.  Most likely '
          'you are here because this is a system dedicated '
          'to manage offline wallets! '
          '<br><br>'
@@ -5397,7 +5397,7 @@ class ArmoryMainWindow(QMainWindow):
          'then you can restart Armory with the "--skip-online-check" '
          'option, or change it in the Armory settings.'
          '<br><br>'
-         'If you do not have Bitcoin-Qt installed, you can '
+         'If you do not have Dash-Qt installed, you can '
          'download it from <a href="http://www.bitcoin.org">'
          'http://www.bitcoin.org</a>.')
 
@@ -5411,22 +5411,22 @@ class ArmoryMainWindow(QMainWindow):
             'You are currently in offline mode, but can '
             'switch to online mode by pressing the button above.  However, '
             'it is not recommended that you switch until '
-            'Bitcoin-Qt/bitcoind is fully synchronized with the bitcoin network.  '
+            'Dash-Qt/dashd is fully synchronized with the bitcoin network.  '
             'You will see a green checkmark in the bottom-right corner of '
-            'the Bitcoin-Qt window when it is finished.'
+            'the Dash-Qt window when it is finished.'
             '<br><br>'
             'Switching to online mode will give you access '
             'to more Armory functionality, including sending and receiving '
-            'bitcoins and viewing the balances and transaction histories '
+            'dash and viewing the balances and transaction histories '
             'of each of your wallets.<br><br>')
          elif state == 'OfflineNoSatoshi':
             bitconf = os.path.join(BTC_HOME_DIR, 'bitcoin.conf')
             return tr( \
             'You are currently in offline mode because '
-            'Bitcoin-Qt is not running.  To switch to online '
-            'mode, start Bitcoin-Qt and let it synchronize with the network '
+            'Dash-Qt is not running.  To switch to online '
+            'mode, start Dash-Qt and let it synchronize with the network '
             '-- you will see a green checkmark in the bottom-right corner when '
-            'it is complete.  If Bitcoin-Qt is already running and you believe '
+            'it is complete.  If Dash-Qt is already running and you believe '
             'the lack of connection is an error (especially if using proxies), '
             'please see <a href="'
             'https://bitcointalk.org/index.php?topic=155717.msg1719077#msg1719077">'
@@ -5434,17 +5434,17 @@ class ArmoryMainWindow(QMainWindow):
             '<br><br>'
             '<b>If you prefer to have Armory do this for you</b>, '
             'then please check "Let Armory run '
-            'Bitcoin-Qt in the background" under "File"->"Settings."'
+            'Dash-Qt in the background" under "File"->"Settings."'
             '<br><br>'
-            'If you are new to Armory and/or Bitcoin-Qt, '
+            'If you are new to Armory and/or Dash-Qt, '
             'please visit the Armory '
             'webpage for more information.  Start at '
             '<a href="https://bitcoinarmory.com/armory-and-bitcoin-qt">'
-            'Why Armory needs Bitcoin-Qt</a> or go straight to our <a '
+            'Why Armory needs Dash-Qt</a> or go straight to our <a '
             'href="https://bitcoinarmory.com/faq/">'
             'frequently asked questions</a> page for more general information.  '
             'If you already know what you\'re doing and simply need '
-            'to fetch the latest version of Bitcoin-Qt, you can download it from '
+            'to fetch the latest version of Dash-Qt, you can download it from '
             '<a href="http://www.bitcoin.org">http://www.bitcoin.org</a>.')
          elif state == 'OfflineNoInternet':
             return tr( \
@@ -5455,13 +5455,13 @@ class ArmoryMainWindow(QMainWindow):
             'or adjust the Armory settings.  Then restart Armory.'
             '<br><br>'
             'If this is intended to be an offline computer, note '
-            'that it is not necessary to have Bitcoin-Qt or bitcoind '
+            'that it is not necessary to have Dash-Qt or dashd '
             'running.' )
          elif state == 'OfflineNoBlkFiles':
             return tr( \
             'You are currently in offline mode because '
             'Armory could not find the blockchain files produced '
-            'by Bitcoin-Qt.  Do you run Bitcoin-Qt (or bitcoind) '
+            'by Dash-Qt.  Do you run Dash-Qt (or dashd) '
             'from a non-standard directory?   Armory expects to '
             'find the blkXXXX.dat files in <br><br>%s<br><br> '
             'If you know where they are located, please restart '
@@ -5469,13 +5469,13 @@ class ArmoryMainWindow(QMainWindow):
             'to notify Armory where to find them.') % BLKFILE_DIR
          elif state == 'Disconnected':
             return tr( \
-            'Armory was previously online, but the connection to Bitcoin-Qt/'
-            'bitcoind was interrupted.  You will not be able to send bitcoins '
-            'or confirm receipt of bitcoins until the connection is '
-            'reestablished.  <br><br>Please check that Bitcoin-Qt is open '
+            'Armory was previously online, but the connection to Dash-Qt/'
+            'dashd was interrupted.  You will not be able to send dash '
+            'or confirm receipt of dash until the connection is '
+            'reestablished.  <br><br>Please check that Dash-Qt is open '
             'and synchronized with the network.  Armory will <i>try to '
             'reconnect</i> automatically when the connection is available '
-            'again.  If Bitcoin-Qt is available again, and reconnection does '
+            'again.  If Dash-Qt is available again, and reconnection does '
             'not happen, please restart Armory.<br><br>')
          elif state == 'ScanNoWallets':
             return tr( \
@@ -5495,24 +5495,24 @@ class ArmoryMainWindow(QMainWindow):
       elif mgmtMode.lower()=='auto':
          if state == 'OfflineBitcoindRunning':
             return tr( \
-            'It appears you are already running Bitcoin software '
-            '(Bitcoin-Qt or bitcoind). '
+            'It appears you are already running Dash software '
+            '(Dash-Qt or dashd). '
             'Unlike previous versions of Armory, you should <u>not</u> run '
             'this software yourself --  Armory '
             'will run it in the background for you.  Either close the '
-            'Bitcoin application or adjust your settings.  If you change '
+            'Dash application or adjust your settings.  If you change '
             'your settings, then please restart Armory.')
          if state == 'OfflineNeedBitcoinInst':
             return tr( \
             '<b>Only one more step to getting online with Armory!</b>   You '
-            'must install the Bitcoin software from www.bitcoin.org in order '
-            'for Armory to communicate with the Bitcoin network.  If the '
-            'Bitcoin software is already installed and/or you would prefer '
+            'must install the Dash software from www.bitcoin.org in order '
+            'for Armory to communicate with the Dash network.  If the '
+            'Dash software is already installed and/or you would prefer '
             'to manage it yourself, please adjust your settings and '
             'restart Armory.')
          if state == 'InitializingLongTime':
             return tr("""
-            <b>To maximize your security, the Bitcoin engine is downloading
+            <b>To maximize your security, the Dash engine is downloading
             and verifying the global transaction ledger.  <u>This will take
             several hours, but only needs to be done once</u>!</b>  It is
             usually best to leave it running over night for this
@@ -5524,10 +5524,10 @@ class ArmoryMainWindow(QMainWindow):
             to hold the global transaction history.
             <br><br>
             While you wait, you can manage your wallets.  Make new wallets,
-            make digital or paper backups, create Bitcoin addresses to receive
+            make digital or paper backups, create Dash addresses to receive
             payments,
             sign messages, and/or import private keys.  You will always
-            receive Bitcoin payments regardless of whether you are online,
+            receive Dash payments regardless of whether you are online,
             but you will have to verify that payment through another service
             until Armory is finished this initialization.""")
          if state == 'InitializingDoneSoon':
@@ -5540,7 +5540,7 @@ class ArmoryMainWindow(QMainWindow):
             'your wallet if you have not done so already!  You are protected '
             '<i>forever</i> from hard-drive loss, or forgetting you password. '
             'If you do not have a backup, you could lose all of your '
-            'Bitcoins forever!  See the <a href="https://bitcoinarmory.com/">'
+            'Dash forever!  See the <a href="https://bitcoinarmory.com/">'
             'Armory Backups page</a> for more info.',
             'The software is downloading and processing the latest activity '
             'on the network related to your wallets.  This should take only '
@@ -5550,7 +5550,7 @@ class ArmoryMainWindow(QMainWindow):
             'your wallets if you have not done so already!  You are protected '
             '<i>forever</i> from hard-drive loss, or forgetting you password. '
             'If you do not have a backup, you could lose all of your '
-            'Bitcoins forever!  See the <a href="https://bitcoinarmory.com/">'
+            'Dash forever!  See the <a href="https://bitcoinarmory.com/">'
             'Armory Backups page</a> for more info.',
                len(self.walletMap)
             )
@@ -5558,20 +5558,20 @@ class ArmoryMainWindow(QMainWindow):
             return msg
          if state == 'OnlineDisconnected':
             return tr( \
-            'Armory\'s communication with the Bitcoin network was interrupted. '
+            'Armory\'s communication with the Dash network was interrupted. '
             'This usually does not happen unless you closed the process that '
             'Armory was using to communicate with the network. Armory requires '
             '%(sdm)s to be running in the background, and this error pops up if it '
             'disappears.'
             '<br><br>You may continue in offline mode, or you can close '
-            'all Bitcoin processes and restart Armory.') \
+            'all Dash processes and restart Armory.') \
             % { 'sdm' : os.path.basename(TheSDM.executable) }
          if state == 'OfflineBadConnection':
             return tr( \
             'Armory has experienced an issue trying to communicate with the '
-            'Bitcoin software.  The software is running in the background, '
+            'Dash software.  The software is running in the background, '
             'but Armory cannot communicate with it through RPC as it expects '
-            'to be able to.  If you changed any settings in the Bitcoin home '
+            'to be able to.  If you changed any settings in the Dash home '
             'directory, please make sure that RPC is enabled and that it is '
             'accepting connections from localhost.  '
             '<br><br>'
@@ -5580,9 +5580,9 @@ class ArmoryMainWindow(QMainWindow):
          if state == 'OfflineSatoshiAvail':
             return tr( \
             'Armory does not detect internet access, but it does detect '
-            'running Bitcoin software.  Armory is in offline-mode. <br><br>'
+            'running Dash software.  Armory is in offline-mode. <br><br>'
             'If you are intending to run an offline system, you will not '
-            'need to have the Bitcoin software installed on the offline '
+            'need to have the Dash software installed on the offline '
             'computer.  It is only needed for the online computer. '
             'If you expected to be online and '
             'the absence of internet is an error, please restart Armory '
@@ -5590,24 +5590,24 @@ class ArmoryMainWindow(QMainWindow):
          if state == 'OfflineForcedButSatoshiAvail':
             return tr( \
             'Armory was started in offline-mode, but detected you are '
-            'running Bitcoin software.  If you are intending to run an '
-            'offline system, you will <u>not</u> need to have the Bitcoin '
+            'running Dash software.  If you are intending to run an '
+            'offline system, you will <u>not</u> need to have the Dash '
             'software installed or running on the offline '
             'computer.  It is only required for being online. ')
          if state == 'OfflineBadDBEnv':
             return tr( \
-            'The Bitcoin software indicates there '
+            'The Dash software indicates there '
             'is a problem with its databases.  This can occur when '
-            'Bitcoin-Qt/bitcoind is upgraded or downgraded, or sometimes '
+            'Dash-Qt/dashd is upgraded or downgraded, or sometimes '
             'just by chance after an unclean shutdown.'
             '<br><br>'
-            'You can either revert your installed Bitcoin software to the '
+            'You can either revert your installed Dash software to the '
             'last known working version (but not earlier than version 0.8.1) '
-            'or delete everything <b>except</b> "wallet.dat" from the your Bitcoin '
+            'or delete everything <b>except</b> "wallet.dat" from the your Dash '
             'home directory:<br><br>'
             '<font face="courier"><b>%(satoshipath)s</b></font>'
             '<br><br>'
-            'If you choose to delete the contents of the Bitcoin home '
+            'If you choose to delete the contents of the Dash home '
             'directory, you will have to do a fresh download of the blockchain '
             'again, which will require a few hours the first '
             'time.') % { 'satoshipath' : self.satoshiHomePath }
@@ -5620,19 +5620,19 @@ class ArmoryMainWindow(QMainWindow):
             serrDisp = '<b><font face="courier">StdErr: %s</font></b>' % serrHtml
             if len(sout)>0 or len(serr)>0:
                return  (tr("""
-               There was an error starting the underlying Bitcoin engine.
+               There was an error starting the underlying Dash engine.
                This should not normally happen.  Usually it occurs when you
-               have been using Bitcoin-Qt prior to using Armory, especially
-               if you have upgraded or downgraded Bitcoin-Qt recently.
-               Output from bitcoind:<br>""") + \
+               have been using Dash-Qt prior to using Armory, especially
+               if you have upgraded or downgraded Dash-Qt recently.
+               Output from dashd:<br>""") + \
                (soutDisp if len(sout)>0 else '') + \
                (serrDisp if len(serr)>0 else '') )
             else:
                return ( tr("""
-                  There was an error starting the underlying Bitcoin engine.
+                  There was an error starting the underlying Dash engine.
                   This should not normally happen.  Usually it occurs when you
-                  have been using Bitcoin-Qt prior to using Armory, especially
-                  if you have upgraded or downgraded Bitcoin-Qt recently.
+                  have been using Dash-Qt prior to using Armory, especially
+                  if you have upgraded or downgraded Dash-Qt recently.
                   <br><br>
                   Unfortunately, this error is so strange, Armory does not
                   recognize it.  Please go to "Export Log File" from the "File"
@@ -5739,7 +5739,7 @@ class ArmoryMainWindow(QMainWindow):
                   self.frmDashMidButtons.setVisible(True)
                   setBtnRowVisible(DASHBTNS.Close, True)
                   if CLI_OPTIONS.offline:
-                     # Forced offline but bitcoind is running
+                     # Forced offline but dashd is running
                      LOGINFO('Dashboard switched to auto-OfflineForcedButSatoshiAvail')
                      descr1 += self.GetDashStateText('Auto', 'OfflineForcedButSatoshiAvail')
                      descr2 += self.GetDashFunctionalityText('Offline')
@@ -5772,9 +5772,9 @@ class ArmoryMainWindow(QMainWindow):
                                             size=4, color='TextWarn', bold=True)
                # Bitcoind is not being managed, but we want it to be
                if satoshiIsAvailable() or sdmState=='BitcoindAlreadyRunning':
-                  # But bitcoind/-qt is already running
+                  # But dashd/-qt is already running
                   LOGINFO('Dashboard switched to auto-butSatoshiRunning')
-                  self.lblDashModeSync.setText(tr(' Please close Bitcoin-Qt'), \
+                  self.lblDashModeSync.setText(tr(' Please close Dash-Qt'), \
                                                          size=4, bold=True)
                   setBtnFrameVisible(True, '')
                   setBtnRowVisible(DASHBTNS.Close, True)
@@ -5790,10 +5790,10 @@ class ArmoryMainWindow(QMainWindow):
                elif sdmState in ['BitcoindExeMissing', 'BitcoindHomeMissing']:
                   LOGINFO('Dashboard switched to auto-cannotFindExeHome')
                   if sdmState=='BitcoindExeMissing':
-                     self.lblDashModeSync.setText(tr('Cannot find Bitcoin Installation'), \
+                     self.lblDashModeSync.setText(tr('Cannot find Dash Installation'), \
                                                          size=4, bold=True)
                   else:
-                     self.lblDashModeSync.setText(tr('Cannot find Bitcoin Home Directory'), \
+                     self.lblDashModeSync.setText(tr('Cannot find Dash Home Directory'), \
                                                          size=4, bold=True)
                   setBtnRowVisible(DASHBTNS.Close, satoshiIsAvailable())
                   setBtnRowVisible(DASHBTNS.Install, True)
@@ -5825,7 +5825,7 @@ class ArmoryMainWindow(QMainWindow):
                   LOGERROR('Should not usually get here')
                   setOnlyDashModeVisible()
                   setBtnFrameVisible(True, \
-                     tr('Try reinstalling the Bitcoin '
+                     tr('Try reinstalling the Dash '
                      'software then restart Armory.  If you continue to have '
                      'problems, please contact Armory\'s core developer at '
                      '<a href="mailto:support@bitcoinarmory.com?Subject=Bitcoind%20Crash"'
@@ -5864,8 +5864,8 @@ class ArmoryMainWindow(QMainWindow):
                   else:
                      extraTxt = tr("""
                         <b>Armory has lost connection to the
-                        core Bitcoin software.  If you did not do anything
-                        that affects your network connection or the bitcoind
+                        core Dash software.  If you did not do anything
+                        that affects your network connection or the dashd
                         process, it will probably recover on its own in a
                         couple minutes</b><br><br>""")
                      self.lblTimeLeftSync.setVisible(False)
@@ -5904,7 +5904,7 @@ class ArmoryMainWindow(QMainWindow):
                   elif sdmState=='BitcoindInitializing':
                      self.lblDashModeTorrent.setText(tr('Download via Armory CDN'), \
                                           size=4, bold=True, color='DisableFG')
-                     self.lblDashModeSync.setText( tr('Initializing Bitcoin Engine'), \
+                     self.lblDashModeSync.setText( tr('Initializing Dash Engine'), \
                                               size=4, bold=True, color='Foreground')
                      self.lblTorrentStats.setVisible(False)
                   else:
@@ -5930,7 +5930,7 @@ class ArmoryMainWindow(QMainWindow):
 
                   setBtnRowVisible(DASHBTNS.Settings, True)
                   setBtnFrameVisible(True, \
-                     tr('Since version 0.88, Armory runs bitcoind in the '
+                     tr('Since version 0.88, Armory runs dashd in the '
                      'background.  You can switch back to '
                      'the old way in the Settings dialog. '))
 
@@ -5938,7 +5938,7 @@ class ArmoryMainWindow(QMainWindow):
                   self.lblDashDescr1.setText(descr1)
                   self.lblDashDescr2.setText(descr2)
       else:
-         # User is managing satoshi client, or bitcoind is already sync'd
+         # User is managing satoshi client, or dashd is already sync'd
          self.frmDashMidButtons.setVisible(False)
          if bdmState in (BDM_OFFLINE, BDM_UNINITIALIZED):
             if self.internetStatus == INTERNET_STATUS.Unavailable:
@@ -5972,8 +5972,8 @@ class ArmoryMainWindow(QMainWindow):
                   descr = self.GetDashStateText('User','OfflineNoSatoshi')
                   setBtnRowVisible(DASHBTNS.Settings, True)
                   setBtnFrameVisible(True, \
-                     tr('If you would like Armory to manage the Bitcoin software '
-                     'for you (Bitcoin-Qt or bitcoind), then adjust your '
+                     tr('If you would like Armory to manage the Dash software '
+                     'for you (Dash-Qt or dashd), then adjust your '
                      'Armory settings, then restart Armory.'))
                   descr = self.GetDashStateText('User','OfflineNoSatoshiNoInternet')
                else:
@@ -6469,7 +6469,7 @@ class ArmoryMainWindow(QMainWindow):
          else:
             if bdmState in (BDM_OFFLINE,BDM_UNINITIALIZED):
                # This call seems out of place, but it's because if you are in offline
-               # mode, it needs to check periodically for the existence of Bitcoin-Qt
+               # mode, it needs to check periodically for the existence of Dash-Qt
                # so that it can enable the "Go Online" button
                self.setDashboardDetails()
                return
@@ -6548,13 +6548,13 @@ class ArmoryMainWindow(QMainWindow):
       # Collected everything we need to display, now construct it and do it.
       if ledgerAmt > 0:
          # Received!
-         title = tr('Bitcoins Received!')
-         dispLines.append(tr('Amount:  %(total)s BTC') % { 'total' : totalStr })
+         title = tr('Dash Received!')
+         dispLines.append(tr('Amount:  %(total)s DASH') % { 'total' : totalStr })
          dispLines.append(tr('Recipient:  %(recp)s') % { 'recp' : dispName } )
       elif ledgerAmt < 0:
          # Sent!
-         title = tr('Bitcoins Sent!')
-         dispLines.append(tr('Amount:  %(tot)s BTC') % { 'tot' : totalStr })
+         title = tr('Dash Sent!')
+         dispLines.append(tr('Amount:  %(tot)s DASH') % { 'tot' : totalStr })
          dispLines.append(tr('Sender:  %(disp)s') % { 'disp' : dispName })
 
       self.showTrayMsg(title, '\n'.join(dispLines), \
@@ -6626,8 +6626,8 @@ class ArmoryMainWindow(QMainWindow):
             # self.showTrayMsg('Your bitcoins just did a lap!', \
             #             'Wallet "%s" (%s) just sent %s BTC to itself!' % \
             #         (wlt.labelName, moneyID, coin2str(amt,maxZeros=1).strip()),
-            self.showTrayMsg(tr('Your bitcoins just did a lap!'), \
-                             tr('%(wltName)s just sent some BTC to itself!') % { 'wltName' : wltName }, \
+            self.showTrayMsg(tr('Your dash just did a lap!'), \
+                             tr('%(wltName)s just sent some DASH to itself!') % { 'wltName' : wltName }, \
                              QSystemTrayIcon.Information, 10000)
             return
 
@@ -6635,8 +6635,8 @@ class ArmoryMainWindow(QMainWindow):
          dispLines = []
          totalStr = coin2strNZS(abs(le.getValue()))
          if le.getValue() > 0:
-            title = tr('Bitcoins Received!')
-            dispLines.append(tr('Amount:  %(tot)s BTC') % { 'tot' : totalStr })
+            title = tr('Dash Received!')
+            dispLines.append(tr('Amount:  %(tot)s DASH') % { 'tot' : totalStr })
             dispLines.append(tr('From:    %(wlt)s') % { 'wlt' : wltName })
          elif le.getValue() < 0:
             # Also display the address of where they went
@@ -6652,8 +6652,8 @@ class ArmoryMainWindow(QMainWindow):
                else:
                   recipStr = tr('<Multiple Recipients>')
             
-            title = tr('Bitcoins Sent!')
-            dispLines.append(tr('Amount:  %(tot)s BTC') % { 'tot' : totalStr })
+            title = tr('Dash Sent!')
+            dispLines.append(tr('Amount:  %(tot)s DASH') % { 'tot' : totalStr })
             dispLines.append(tr('From:    %(wlt)s') % { 'wlt' : wltName })
             dispLines.append(tr('To:      %(recp)s') % { 'recp' : recipStr })
    
@@ -6732,7 +6732,7 @@ class ArmoryMainWindow(QMainWindow):
          return None
 
       finalDir = os.path.abspath(unpackDirChild)
-      LOGWARN('Bitcoin Core unpacked into: %s', finalDir)
+      LOGWARN('Dash Core unpacked into: %s', finalDir)
 
       if changeSettings:
          self.settings.set('SatoshiExe', finalDir)
@@ -6793,7 +6793,7 @@ class ArmoryMainWindow(QMainWindow):
             LOGEXCEPT('Shutdown function failed.  Skipping.')
 
       
-      # This will do nothing if bitcoind isn't running.
+      # This will do nothing if dashd isn't running.
       try:
          self.shutdownBitcoindThread.join()
       except:
@@ -7105,7 +7105,7 @@ def checkForAlreadyOpenError():
          LOGINFO('Found armory PID: %d', proc.pid)
          armoryExists.append(proc.pid)
       if bexe in pname:
-         LOGINFO('Found bitcoind PID: %d', proc.pid)
+         LOGINFO('Found dashd PID: %d', proc.pid)
          if ('testnet' in proc.name) == USE_TESTNET:
             bitcoindExists.append(proc.pid)
 
@@ -7113,9 +7113,9 @@ def checkForAlreadyOpenError():
       LOGINFO('Not an error!  Armory really is open')
       return
    elif len(bitcoindExists)>0:
-      # Strange condition where bitcoind doesn't get killed by Armory/guardian
+      # Strange condition where dashd doesn't get killed by Armory/guardian
       # (I've only seen this happen on windows, though)
-      LOGERROR('Found zombie bitcoind process...killing it')
+      LOGERROR('Found zombie dashd process...killing it')
       for pid in bitcoindExists:
          killProcess(pid)
       time.sleep(0.5)

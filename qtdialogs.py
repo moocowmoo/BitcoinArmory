@@ -1435,7 +1435,7 @@ class DlgPasswd3(ArmoryDialog):
          '<font color="red"><b>!!! DO NOT FORGET YOUR PASSPHRASE !!!</b></font>', size=4)
       lblWarnTxt1.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
       lblWarnTxt2 = QRichLabel(\
-         '<b>No one can help you recover you bitcoins if you forget the '
+         '<b>No one can help you recover you dash if you forget the '
          'passphrase and don\'t have a paper backup!</b> Your wallet and '
          'any <u>digital</u> backups are useless if you forget it.  '
          '<br><br>'
@@ -1588,8 +1588,8 @@ class DlgWalletDetails(ArmoryDialog):
 
       exportStr = 'Data' if self.wlt.watchingOnly else 'Copy'
       
-      lbtnSendBtc = QLabelButton('Send Bitcoins')
-      lbtnGenAddr = QLabelButton('Receive Bitcoins')
+      lbtnSendBtc = QLabelButton('Send Dash')
+      lbtnGenAddr = QLabelButton('Receive Dash')
       lbtnImportA = QLabelButton('Import/Sweep Private Keys')
       lbtnDeleteA = QLabelButton('Remove Imported Address')
       # lbtnSweepA  = QLabelButton('Sweep Wallet/Address')
@@ -1612,7 +1612,7 @@ class DlgWalletDetails(ArmoryDialog):
       self.connect(lbtnExpWOWlt, SIGNAL(CLICKED), self.execExpWOCopy)
       #self.connect(lbtnRecover, SIGNAL(CLICKED), self.recoverPwd)
 
-      lbtnSendBtc.setToolTip('<u></u>Send bitcoins to other users, or transfer '
+      lbtnSendBtc.setToolTip('<u></u>Send Dash to other users, or transfer '
                              'between wallets')
       if self.wlt.watchingOnly:
          lbtnSendBtc.setToolTip('<u></u>If you have a full-copy of this wallet '
@@ -1860,9 +1860,9 @@ class DlgWalletDetails(ArmoryDialog):
       self.lblSpendFunds.setText(spdStr)
       self.lblUnconfFunds.setText(ucnStr)
 
-      self.lblBTC1.setText('<b><font color="%s">BTC</font></b>' % lblcolor)
-      self.lblBTC2.setText('<b>BTC</b>')
-      self.lblBTC3.setText('<b>BTC</b>')
+      self.lblBTC1.setText('<b><font color="%s">DASH</font></b>' % lblcolor)
+      self.lblBTC2.setText('<b>DASH</b>')
+      self.lblBTC3.setText('<b>DASH</b>')
 
 
    #############################################################################
@@ -2516,7 +2516,7 @@ def showRecvCoinsWarningIfNecessary(wlt, parent, main):
       result = QMessageBox.warning(main, tr('Careful!'), tr("""
          Armory is not online yet, and will eventually need to be online to
          access any funds sent to your wallet.  Please <u><b>do not</b></u>
-         receive Bitcoins to your Armory wallets until you have successfully
+         receive Dash to your Armory wallets until you have successfully
          gotten online <i>at least one time</i>.
          <br><br>
          Armory is still beta software, and some users report difficulty
@@ -2802,7 +2802,7 @@ class DlgNewAddressDisp(ArmoryDialog):
       frmComment.setLayout(frmCommentLayout)
 
 
-      lblRecvWlt = QRichLabel('Bitcoins sent to this address will '
+      lblRecvWlt = QRichLabel('Dash sent to this address will '
             'appear in the wallet:', doWrap=False)
 
       lblRecvWlt.setWordWrap(True)
@@ -2910,7 +2910,7 @@ class DlgImportAddress(ArmoryDialog):
                      'has access to it.  Otherwise, sweep it to get '
                      'the funds out of it.  All standard private-key formats '
                      'are supported <i>except for private keys created by '
-                     'Bitcoin-Qt version 0.6.0 and later (compressed)</i>.')
+                     'Dash-Qt version 0.6.0 and later (compressed)</i>.')
 
       lblPrivOne = QRichLabel('Private Key')
       self.edtPrivData = QLineEdit()
@@ -3101,7 +3101,7 @@ class DlgImportAddress(ArmoryDialog):
          if binary_to_int(binKeyData, BIGENDIAN) >= SECP256K1_ORDER:
             QMessageBox.critical(self, 'Invalid Private Key', \
                'The private key you have entered is actually not valid '
-               'for the elliptic curve used by Bitcoin (secp256k1).  '
+               'for the elliptic curve used by Dash (secp256k1).  '
                'Almost any 64-character hex is a valid private key '
                '<b>except</b> for those greater than: '
                '<br><br>'
@@ -3130,7 +3130,7 @@ class DlgImportAddress(ArmoryDialog):
       except CompressedKeyError, e:
          QMessageBox.critical(self, 'Unsupported key type', 'You entered a key '
             'for an address that uses a compressed public key, usually produced '
-            'in Bitcoin-Qt/bitcoind wallets created after version 0.6.0.  Armory '
+            'in Dash-Qt/dashd wallets created after version 0.6.0.  Armory '
             'does not yet support this key type.')
          LOGERROR('Compressed key data recognized but not supported')
          return
@@ -3146,7 +3146,7 @@ class DlgImportAddress(ArmoryDialog):
       if not 'mini' in keyType.lower():
          reply = QMessageBox.question(self, 'Verify Address', \
                'The key data you entered appears to correspond to '
-               'the following Bitcoin address:\n\n\t' + addrStr +
+               'the following Dash address:\n\n\t' + addrStr +
                '\n\nIs this the correct address?',
                QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
          if reply == QMessageBox.Cancel:
@@ -3453,7 +3453,7 @@ class DlgVerifySweep(ArmoryDialog):
       # frmLayout.addWidget(QRichLabel('Funds will be <i>swept</i>...'), 0,0, 1,2)
       frmLayout.addWidget(QRichLabel('      From ' + inputStr, doWrap=False), 1, 0, 1, 2)
       frmLayout.addWidget(QRichLabel('      To ' + outputStr, doWrap=False), 2, 0, 1, 2)
-      frmLayout.addWidget(QRichLabel('      Total <b>%s</b> BTC %s' % (outStr, feeStr), doWrap=False), 3, 0, 1, 2)
+      frmLayout.addWidget(QRichLabel('      Total <b>%s</b> DASH %s' % (outStr, feeStr), doWrap=False), 3, 0, 1, 2)
       frm.setLayout(frmLayout)
 
       lblFinalConfirm = QLabel('Are you sure you want to execute this transaction?')
@@ -3677,9 +3677,9 @@ class DlgAddressInfo(ArmoryDialog):
          if balCoin > 0:
             goodColor = htmlColor('MoneyPos')
             lbls[-1].append(QRichLabel(\
-               '<font color=' + goodColor + '>' + balStr.strip() + '</font> BTC'))
+               '<font color=' + goodColor + '>' + balStr.strip() + '</font> DASH'))
          else:
-            lbls[-1].append(QRichLabel(balStr.strip() + ' BTC'))
+            lbls[-1].append(QRichLabel(balStr.strip() + ' DASH'))
       except:
          lbls[-1].append(QRichLabel("N/A"))
          
@@ -4006,7 +4006,7 @@ class DlgEULA(ArmoryDialog):
 
 
       lblPleaseAgree = QRichLabel(\
-         '<b>Armory Bitcoin Client is licensed under the <i>Affero General '
+         '<b>Armory Dash Client is licensed under the <i>Affero General '
          'Public License, Version 3 (AGPLv3)</i></b>'
          '<br><br>'
          'Additionally, as a condition of receiving this software '
@@ -4056,16 +4056,16 @@ class DlgIntroMessage(ArmoryDialog):
       lblWelcome = QRichLabel('<b>Welcome to Armory!</b>')
       lblWelcome.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
       lblWelcome.setFont(GETFONT('Var', 14))
-      lblSlogan = QRichLabel('<i>The most advanced Bitcoin Client on Earth!</i>')
+      lblSlogan = QRichLabel('<i>The most advanced Dash Client on Earth!</i>')
       lblSlogan.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
       lblDescr = QRichLabel(\
-         '<b>You are about to use the most secure and feature-rich Bitcoin client '
+         '<b>You are about to use the most secure and feature-rich Dash client '
          'software available!</b>  But please remember, this software '
          'is still <i>Beta</i> - Armory developers will not be held responsible '
          'for loss of bitcoins resulting from the use of this software!'
          '<br><br>'
-         'For more info about Armory, and Bitcoin itself, see '
+         'For more info about Armory, and Dash itself, see '
          '<a href="https://bitcoinarmory.com/faq">frequently '
          'asked questions</a>.')
       lblDescr.setOpenExternalLinks(True)
@@ -4425,11 +4425,11 @@ class DlgRemoveWallet(ArmoryDialog):
          lbls.append([])
          lbls[3].append(QLabel('Current Balance (w/ unconfirmed):'))
          if bal > 0:
-            lbls[3].append(QLabel('<font color="red"><b>' + coin2str(bal, maxZeros=1).strip() + ' BTC</b></font>'))
+            lbls[3].append(QLabel('<font color="red"><b>' + coin2str(bal, maxZeros=1).strip() + ' DASH</b></font>'))
             lbls[3][-1].setTextFormat(Qt.RichText)
             wltEmpty = False
          else:
-            lbls[3].append(QLabel(coin2str(bal, maxZeros=1) + ' BTC'))
+            lbls[3].append(QLabel(coin2str(bal, maxZeros=1) + ' DASH'))
 
 
       # Add two WARNING images on either side of dialog
@@ -4697,11 +4697,11 @@ class DlgRemoveAddress(ArmoryDialog):
          lbls.append([])
          lbls[-1].append(QLabel('Address Balance (w/ unconfirmed):'))
          if bal > 0:
-            lbls[-1].append(QLabel('<font color="red"><b>' + coin2str(bal, maxZeros=1) + ' BTC</b></font>'))
+            lbls[-1].append(QLabel('<font color="red"><b>' + coin2str(bal, maxZeros=1) + ' DASH</b></font>'))
             lbls[-1][-1].setTextFormat(Qt.RichText)
             addrEmpty = False
          else:
-            lbls[3].append(QLabel(coin2str(bal, maxZeros=1) + ' BTC'))
+            lbls[3].append(QLabel(coin2str(bal, maxZeros=1) + ' DASH'))
 
 
       # Add two WARNING images on either side of dialog
@@ -4949,7 +4949,7 @@ class DlgConfirmSend(ArmoryDialog):
 
 
       lblMsg = QRichLabel(tr("""
-         This transaction will spend <b>%s BTC</b> from 
+         This transaction will spend <b>%s DASH</b> from
          <font color="%s">Wallet "<b>%s</b>" (%s)</font> to the following
          recipients:""") % 
          (totalSendStr, htmlColor('TextBlue'), wlt.labelName, wlt.uniqueIDB58))
@@ -4960,7 +4960,7 @@ class DlgConfirmSend(ArmoryDialog):
             outputs are going to the same wallet from which they came 
             and do not affect the wallet's final balance.
             The total balance of the wallet will actually only decrease 
-            <b>%s BTC</b> as a result of this transaction.  %s</font>""") % \
+            <b>%s DASH</b> as a result of this transaction.  %s</font>""") % \
             (sendFromWalletStr, showAllMsg))
       elif len(showAllMsg)>0:
          lblAfterBox.setText(showAllMsg)
@@ -5047,7 +5047,7 @@ class DlgSendBitcoins(ArmoryDialog):
 
       self.spendFromLockboxID = spendFromLockboxID
 
-      self.frame = SendBitcoinsFrame(self, main, tr('Send Bitcoins'),
+      self.frame = SendBitcoinsFrame(self, main, tr('Send Dash'),
                    wlt, prefill, wltIDList, onlyOfflineWallets=onlyOfflineWallets,
                    sendCallback=self.createTxAndBroadcast,
                    createUnsignedTxCallback=self.createUnsignedTxAndDisplay, 
@@ -5205,7 +5205,7 @@ class DlgOfflineSelect(ArmoryDialog):
          the private keys needed for it """))
 
       lblBroadc = QRichLabel(tr("""
-         Send a pre-signed transaction to the Bitcoin network to finalize it"""))
+         Send a pre-signed transaction to the Dash network to finalize it"""))
 
       lblBroadc.setMinimumWidth(tightSizeNChar(lblBroadc, 45)[0])
 
@@ -5586,10 +5586,10 @@ class DlgTxFeeOptions(ArmoryDialog):
 
       lblDescr = QLabel(\
          'Transaction fees go to people who contribute processing power to '
-         'the Bitcoin network to process transactions and keep it secure.')
+         'the Dash network to process transactions and keep it secure.')
       lblDescr2 = QLabel(\
          'Nearly all transactions are guaranteed to be '
-         'processed if a fee of 0.0005 BTC is included (less than $0.01 USD).  You '
+         'processed if a fee of 0.0005 DASH is included (less than $0.01 USD).  You '
          'will be prompted for confirmation if a higher fee amount is required for '
          'your transaction.')
 
@@ -5865,7 +5865,7 @@ class DlgDispTxInfo(ArmoryDialog):
       if self.mode in (USERMODE.Expert,):
          # Add protocol version and locktime to the display
          lbls.append([])
-         lbls[-1].append(self.main.createToolTipWidget('Bitcoin Protocol Version Number'))
+         lbls[-1].append(self.main.createToolTipWidget('Dash Protocol Version Number'))
          lbls[-1].append(QLabel('Tx Version:'))
          lbls[-1].append(QLabel(str(self.pytx.version)))
 
@@ -5946,11 +5946,11 @@ class DlgDispTxInfo(ArmoryDialog):
                'to determine which is which, and so this fields shows the sum '
                'of <b>all</b> outputs.'))
          lbls[-1].append(QLabel('Sum of Outputs:'))
-         lbls[-1].append(QLabel(coin2str(txAmt, maxZeros=1).strip() + '  BTC'))
+         lbls[-1].append(QLabel(coin2str(txAmt, maxZeros=1).strip() + '  DASH'))
       else:
          lbls.append([])
          lbls[-1].append(self.main.createToolTipWidget(
-               'Bitcoins were either sent or received, or sent-to-self'))
+               'Dash were either sent or received, or sent-to-self'))
          lbls[-1].append(QLabel('Transaction Direction:'))
          lbls[-1].append(QRichLabel(txdir))
 
@@ -5959,7 +5959,7 @@ class DlgDispTxInfo(ArmoryDialog):
                'The value shown here is the net effect on your '
                'wallet, including transaction fee.'))
          lbls[-1].append(QLabel('Transaction Amount:'))
-         lbls[-1].append(QRichLabel(coin2str(txAmt, maxZeros=1).strip() + '  BTC'))
+         lbls[-1].append(QRichLabel(coin2str(txAmt, maxZeros=1).strip() + '  DASH'))
          if txAmt < 0:
             lbls[-1][-1].setText('<font color="red">' + lbls[-1][-1].text() + '</font> ')
          elif txAmt > 0:
@@ -5970,10 +5970,10 @@ class DlgDispTxInfo(ArmoryDialog):
          fee = self.data[FIELDS.SumIn] - self.data[FIELDS.SumOut]
          lbls.append([])
          lbls[-1].append(self.main.createToolTipWidget(
-            'Transaction fees go to users supplying the Bitcoin network with '
+            'Transaction fees go to users supplying the Dash network with '
             'computing power for processing transactions and maintaining security.'))
          lbls[-1].append(QLabel('Tx Fee Paid:'))
-         lbls[-1].append(QLabel(coin2str(fee, maxZeros=0).strip() + '  BTC'))
+         lbls[-1].append(QLabel(coin2str(fee, maxZeros=0).strip() + '  DASH'))
 
 
 
@@ -6013,7 +6013,7 @@ class DlgDispTxInfo(ArmoryDialog):
 
             rlbls[-1].append(QLabel(scrAddr_to_addrStr(sv[0])))
             if numRV > 1:
-               rlbls[-1].append(QLabel(coin2str(sv[1], maxZeros=1) + '  BTC'))
+               rlbls[-1].append(QLabel(coin2str(sv[1], maxZeros=1) + '  DASH'))
             else:
                rlbls[-1].append(QLabel(''))
             ffixBold = GETFONT('Fixed', 10)
@@ -7569,13 +7569,13 @@ class DlgBadConnection(ArmoryDialog):
             'restart Armory.<br><br>Would you like to continue in "Offline" mode? ')
       elif haveInternet and not haveSatoshi:
          lblDescr = QRichLabel(\
-            'Armory was not able to detect the presence of Bitcoin-Qt or bitcoind '
+            'Armory was not able to detect the presence of Dash-Qt or dashd '
             'client software (available at http://www.bitcoin.org).  Please make sure that '
             'the one of those programs is... <br>'
             '<br><b>(1)</b> ...open and connected to the network '
             '<br><b>(2)</b> ...on the same network as Armory (main-network or test-network)'
             '<br><b>(3)</b> ...synchronized with the blockchain before '
-            'starting Armory<br><br>Without the Bitcoin-Qt or bitcoind open, you will only '
+            'starting Armory<br><br>Without the Dash-Qt or dashd open, you will only '
             'be able to run Armory in "Offline" mode, which will not have access '
             'to new blockchain data, and you will not be able to send outgoing '
             'transactions<br><br>If you do not want to be in "Offline" mode, please '
@@ -7936,9 +7936,9 @@ class DlgECDSACalc(ArmoryDialog):
       gystr = '483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8'
 
       lblDescr = QRichLabel(tr("""
-         Use this form to perform Bitcoin elliptic curve calculations.  All
+         Use this form to perform Dash elliptic curve calculations.  All
          operations are performed on the secp256k1 elliptic curve, which is
-         the one used for Bitcoin.
+         the one used for Dash
          Supply all values as 32-byte, big-endian, hex-encoded integers.
          <br><br>
          The following is the secp256k1 generator point coordinates (G): <br>
@@ -8006,7 +8006,7 @@ class DlgECDSACalc(ArmoryDialog):
       if not CryptoECDSA().ECVerifyPoint(binBx, binBy):
          QMessageBox.critical(self, 'Invalid EC Point', \
             'The point you specified (<b>B</b>) is not on the '
-            'elliptic curved used in Bitcoin (secp256k1).', QMessageBox.Ok)
+            'elliptic curved used in Dash (secp256k1).', QMessageBox.Ok)
          return
 
       C = CryptoECDSA().ECMultiplyPoint(binA, binBx, binBy)
@@ -8028,13 +8028,13 @@ class DlgECDSACalc(ArmoryDialog):
       if not CryptoECDSA().ECVerifyPoint(binAx, binAy):
          QMessageBox.critical(self, 'Invalid EC Point', \
             'The point you specified (<b>A</b>) is not on the '
-            'elliptic curved used in Bitcoin (secp256k1).', QMessageBox.Ok)
+            'elliptic curved used in Dash (secp256k1).', QMessageBox.Ok)
          return
 
       if not CryptoECDSA().ECVerifyPoint(binBx, binBy):
          QMessageBox.critical(self, 'Invalid EC Point', \
             'The point you specified (<b>B</b>) is not on the '
-            'elliptic curved used in Bitcoin (secp256k1).', QMessageBox.Ok)
+            'elliptic curved used in Dash (secp256k1).', QMessageBox.Ok)
          return
 
       C = CryptoECDSA().ECAddPoints(binAx, binAy, binBx, binBy)
@@ -8488,7 +8488,7 @@ class DlgAddressBook(ArmoryDialog):
             self.useBareMultiSigCheckBox.setChecked(False)
             self.useBareMultiSigCheckBox.setToolTip(tr("""
                Bare multi-sig is not available for M-of-N lockboxes on the 
-               main Bitcoin network with N higher than 3."""))
+               main Dash network with N higher than 3."""))
          else:
             self.useBareMultiSigCheckBox.setEnabled(True)
 
@@ -8676,7 +8676,7 @@ class DlgHelpAbout(ArmoryDialog):
       imgLogo.setPixmap(QPixmap(':/armory_logo_h56.png'))
       imgLogo.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
-      lblHead = QRichLabel(tr('Armory Bitcoin Wallet : Version %s-beta-%s') % \
+      lblHead = QRichLabel(tr('Armory Dash Wallet : Version %s-beta-%s') % \
                                     (getVersionString(BTCARMORY_VERSION), BTCARMORY_BUILD), doWrap=False)
       lblWebpage = QRichLabel('<a href="https://www.bitcoinarmory.com">https://www.bitcoinarmory.com</a>')
       lblWebpage.setOpenExternalLinks(True)
@@ -8710,7 +8710,7 @@ class DlgSettings(ArmoryDialog):
       ##########################################################################
       # bitcoind-management settings
       self.chkManageSatoshi = QCheckBox(tr("""
-         Let Armory run Bitcoin-Qt/bitcoind in the background"""))
+         Let Armory run Dash-Qt/dashd in the background"""))
       self.edtSatoshiExePath = QLineEdit()
       self.edtSatoshiHomePath = QLineEdit()
       self.edtSatoshiExePath.setMinimumWidth(tightSizeNChar(GETFONT('Fixed', 10), 40)[0])
@@ -8721,7 +8721,7 @@ class DlgSettings(ArmoryDialog):
       if OS_MACOSX:
          self.chkManageSatoshi.setEnabled(False)
          lblManageSatoshi = QRichLabel(\
-            'Bitcoin-Qt/bitcoind management is not available on Mac/OSX')
+            'Dash-Qt/dashd management is not available on Mac/OSX')
       else:
          if self.main.settings.hasSetting('SatoshiExe'):
             satexe = self.main.settings.get('SatoshiExe')
@@ -8731,9 +8731,9 @@ class DlgSettings(ArmoryDialog):
             sathome = self.main.settings.get('SatoshiDatadir')
 
          lblManageSatoshi = QRichLabel(\
-            '<b>Bitcoin Software Management</b>'
+            '<b>Dash Software Management</b>'
             '<br><br>'
-            'By default, Armory will manage the Bitcoin engine/software in the '
+            'By default, Armory will manage the Dash engine/software in the '
             'background.  You can choose to manage it yourself, or tell Armory '
             'about non-standard installation configuration.')
       if self.main.settings.hasSetting('SatoshiExe'):
@@ -8743,8 +8743,8 @@ class DlgSettings(ArmoryDialog):
          self.edtSatoshiHomePath.setText(self.main.settings.get('SatoshiDatadir'))
          self.edtSatoshiHomePath.home(False)
 
-      lblDescrExe = QRichLabel('Bitcoin Install Dir:')
-      lblDescrHome = QRichLabel('Bitcoin Home Dir:')
+      lblDescrExe = QRichLabel('Dash Install Dir:')
+      lblDescrHome = QRichLabel('Dash Home Dir:')
       lblDefaultExe = QRichLabel('Leave blank to have Armory search default '
                                   'locations for your OS', size=2)
       lblDefaultHome = QRichLabel('Leave blank to use default datadir '
@@ -8787,7 +8787,7 @@ class DlgSettings(ArmoryDialog):
 
 
       self.chkDisableTorrent = QCheckBox(tr("""
-         Disable torrent download (force synchronization via Bitcoin P2P)"""))
+         Disable torrent download (force synchronization via Dash P2P)"""))
       disableTorrent = self.main.getSettingOrSetDefault('DisableTorrent', False)
       self.chkDisableTorrent.setChecked(disableTorrent)
 
@@ -8805,7 +8805,7 @@ class DlgSettings(ArmoryDialog):
          logged by ATI servers.  You can continue to receive notifications 
          but not send any statistical information.""")
       lblPrivTorDescr = QRichLabel("""
-         If you are going to use Armory and Bitcoin Core with a proxy (such
+         If you are going to use Armory and Dash Core with a proxy (such
          as Tor), you should disable all Armory communications that might operate 
          outside the proxy.""")
 
@@ -8845,7 +8845,7 @@ class DlgSettings(ArmoryDialog):
             Armory just attempted to register itself to handle "bitcoin:"
             links, but this does not work on all operating systems.  You can
             test it by going to the
-            <a href="http://www.bitcoinarmory.com">Bitcoin Armory
+            <a href="http://www.bitcoinarmory.com">Dash Armory
             website</a> and clicking the link at the bottom of the
             homepage."""), QMessageBox.Ok)
 
@@ -8916,8 +8916,8 @@ class DlgSettings(ArmoryDialog):
          <b>Default fee to include with transactions:</b><br>"""))
       lblDefaultDescr = QRichLabel(tr("""
          Fees go to users that contribute computing power to keep the
-         Bitcoin network secure.  It also increases the priority of your
-         transactions so they confirm faster (%s BTC is standard).""") % \
+         Dash network secure.  It also increases the priority of your
+         transactions so they confirm faster (%s DASH is standard).""") % \
          coin2strNZS(MIN_TX_FEE))
 
       ttipDefaultFee = self.main.createToolTipWidget(tr("""
@@ -8967,10 +8967,10 @@ class DlgSettings(ArmoryDialog):
          osxMinorVer = OS_VARIANT[0].split(".")[1]
 
       lblNotify = QRichLabel('<b>Enable notifications from the system-tray:</b>')
-      self.chkBtcIn = QCheckBox('Bitcoins Received')
-      self.chkBtcOut = QCheckBox('Bitcoins Sent')
-      self.chkDiscon = QCheckBox('Bitcoin-Qt/bitcoind disconnected')
-      self.chkReconn = QCheckBox('Bitcoin-Qt/bitcoind reconnected')
+      self.chkBtcIn = QCheckBox('Dash Received')
+      self.chkBtcOut = QCheckBox('Dash Sent')
+      self.chkDiscon = QCheckBox('Dash-Qt/dashd disconnected')
+      self.chkReconn = QCheckBox('Dash-Qt/dashd reconnected')
 
       # FYI:If we're not on OS X, the if condition will never be hit.
       if (OS_MACOSX) and (int(osxMinorVer) < 7):
@@ -9279,9 +9279,9 @@ class DlgSettings(ArmoryDialog):
          pathExe = unicode(self.edtSatoshiExePath.text()).strip()
          if len(pathExe) > 0:
             if not os.path.exists(pathExe):
-               exeName = 'bitcoin-qt.exe' if OS_WINDOWS else 'bitcoin-qt'
+               exeName = 'dash-qt.exe' if OS_WINDOWS else 'dash-qt'
                QMessageBox.warning(self, 'Invalid Path', \
-                  'The path you specified for the Bitcoin software installation '
+                  'The path you specified for the Dash software installation '
                   'does not exist.  Please select the directory that contains %s '
                   'or leave it blank to have Armory search the default location '
                   'for your operating system' % exeName, QMessageBox.Ok)
@@ -9292,16 +9292,16 @@ class DlgSettings(ArmoryDialog):
          else:
             self.main.settings.delete('SatoshiExe')
 
-         # Check valid path is supplied for bitcoind home directory
+         # Check valid path is supplied for dashd home directory
          pathHome = unicode(self.edtSatoshiHomePath.text()).strip()
          if len(pathHome) > 0:
             if not os.path.exists(pathHome):
-               exeName = 'bitcoin-qt.exe' if OS_WINDOWS else 'bitcoin-qt'
+               exeName = 'dash-qt.exe' if OS_WINDOWS else 'dash-qt'
                QMessageBox.warning(self, 'Invalid Path', \
-                  'The path you specified for the Bitcoin software home directory '
+                  'The path you specified for the Dash software home directory '
                   'does not exist.  Only specify this directory if you use a '
-                  'non-standard "-datadir=" option when running Bitcoin-Qt or '
-                  'bitcoind.  If you leave this field blank, the following '
+                  'non-standard "-datadir=" option when running Dash-Qt or '
+                  'dashd  If you leave this field blank, the following '
                   'path will be used: <br><br> %s' % BTC_HOME_DIR, QMessageBox.Ok)
                return
             self.main.writeSetting('SatoshiDatadir', pathHome)
@@ -9413,7 +9413,7 @@ class DlgSettings(ArmoryDialog):
             ('"Expert" mode is similar to "Advanced" but includes '
              'access to lower-level info about transactions, scripts, keys '
              'and network protocol.  Most extra functionality is geared '
-             'towards Bitcoin software developers.')
+             'towards Dash software developers.')
       self.lblUsermodeDescr.setText(strDescr)
 
 
@@ -9873,7 +9873,7 @@ class DlgRequestPayment(ArmoryDialog):
 
       lblDescr = QRichLabel(\
          'Create a clickable link that you can copy into email or webpage to '
-         'request a payment.   If the user is running a Bitcoin program '
+         'request a payment.   If the user is running a Dash program '
          'that supports "bitcoin:" links, that program will open with '
          'all this information pre-filled after they click the link.')
 
@@ -9882,7 +9882,7 @@ class DlgRequestPayment(ArmoryDialog):
 
 
       ttipPreview = self.main.createToolTipWidget(\
-         'The following Bitcoin desktop applications <i>try</i> to '
+         'The following Dash desktop applications <i>try</i> to '
          'register themselves with your computer to handle "bitcoin:" '
          'links: Armory, Multibit, Electrum')
       ttipLinkText = self.main.createToolTipWidget(\
@@ -9919,7 +9919,7 @@ class DlgRequestPayment(ArmoryDialog):
       layoutEntry.addWidget(ttipAddress, i, 2)
 
       i += 1
-      layoutEntry.addWidget(QRichLabel('<b>Request (BTC):</b>'), i, 0)
+      layoutEntry.addWidget(QRichLabel('<b>Request (DASH):</b>'), i, 0)
       layoutEntry.addWidget(self.edtAmount, i, 1)
 
       i += 1
@@ -10076,7 +10076,7 @@ class DlgRequestPayment(ArmoryDialog):
       self.dispText += '<br>'
       self.dispText += '<b>Pay to</b>:\t%s<br>' % addr
       if amt:
-         self.dispText += '<b>Amount</b>:\t%s BTC<br>' % coin2str(amt, maxZeros=0).strip()
+         self.dispText += '<b>Amount</b>:\t%s DASH<br>' % coin2str(amt, maxZeros=0).strip()
       if msgStr:
          self.dispText += '<b>Message</b>:\t%s<br>' % msgStr
       self.lblLink.setText(self.dispText)
@@ -10091,7 +10091,7 @@ class DlgRequestPayment(ArmoryDialog):
       self.plainText += 'If clicking on the line above does not work, use this payment info:\n'
       self.plainText += 'Pay to:  %s' % addr
       if amt:
-         self.plainText += '\nAmount:  %s BTC' % coin2str(amt, maxZeros=0).strip()
+         self.plainText += '\nAmount:  %s DASH' % coin2str(amt, maxZeros=0).strip()
       if msgStr:
          self.plainText += '\nMessage: %s' % msgStr
       self.plainText += '\n'
@@ -10713,7 +10713,7 @@ class DlgInstallLinux(ArmoryDialog):
 
 
       lblOptions = QRichLabel(\
-         'If you have manually installed Bitcoin-Qt or bitcoind on this system '
+         'If you have manually installed Dash-Qt or dashd on this system '
          'before, it is recommended you use the method here you previously used.  '
          'If you get errors using this option, try using the manual instructions '
          'below.')
@@ -10733,13 +10733,13 @@ class DlgInstallLinux(ArmoryDialog):
       lblAutoPPA = QRichLabel(\
          'Have Armory install the PPA for you.  The does not work on all '
          'systems, so try the manual instructions below, if it fails.  '
-         'Using the PPA will install the Bitcoin software using your '
+         'Using the PPA will install the Dash software using your '
          'system\'s package manager, and you will be notified of updates along with '
          'other software on your system.')
-      self.btnAutoPPA = QPushButton('Install Bitcoin PPA')
+      self.btnAutoPPA = QPushButton('Install Dash PPA')
       self.connect(self.btnAutoPPA, SIGNAL(CLICKED), self.doPPA)
       self.btnAutoPPA.setToolTip(\
-         'Click to install the Bitcoin PPA for Ubuntu')
+         'Click to install the Dash PPA for Ubuntu')
 
       frmDoItForMeBtn = makeHorizFrame([STRETCH, \
                                         self.btnAutoPPA, \
@@ -10757,7 +10757,7 @@ class DlgInstallLinux(ArmoryDialog):
          '<br>'
          'sudo apt-get update'
          '<br>'
-         'sudo apt-get install bitcoin-qt bitcoind')
+         'sudo apt-get install dash-qt dashd')
       lblInstallPPACmds.setFont(GETFONT('Courier', 10))
       lblInstallPPACmds.setTextInteractionFlags(Qt.TextSelectableByMouse | \
                                                 Qt.TextSelectableByKeyboard)
@@ -10788,7 +10788,7 @@ class DlgInstallLinux(ArmoryDialog):
       self.chkCustomDLPath = QCheckBox('Select custom download location')
 
       lblInstallManualDescr = QRichLabel(\
-         '<b>Manual download and install of the Bitcoin software:</b><br>'
+         '<b>Manual download and install of the Dash software:</b><br>'
          '<ol>'
          '<li>Go to <a href="http://www.bitcoin.org/en/download">'
          'http://www.bitcoin.org/en/download</a></li>'
@@ -10798,7 +10798,7 @@ class DlgInstallLinux(ArmoryDialog):
          '</ol>'
          '<br>'
          'Once the downloaded archive is unpacked, then click the button below '
-         'to open the Armory settings and change the "Bitcoin Installation Path" '
+         'to open the Armory settings and change the "Dash Installation Path" '
          'to point to the new directory.  Then restart Armory')
       lblInstallManualDescr.setOpenExternalLinks(True)
 
@@ -10844,7 +10844,7 @@ class DlgInstallLinux(ArmoryDialog):
 
       self.radioUbuntuPPA.setChecked(True)
       self.clickInstallOpt()
-      self.setWindowTitle('Install Bitcoin in Linux')
+      self.setWindowTitle('Install Dash in Linux')
 
       from twisted.internet import reactor
       reactor.callLater(0.2, self.main.checkForLatestVersion)
@@ -10856,7 +10856,7 @@ class DlgInstallLinux(ArmoryDialog):
          QMessageBox.warning(self, 'Not available', \
             'Armory does not actually have the information needed to execute '
             'this process securely.  Please visit the bitcoin.org and download '
-            'the Linux version of the Bitcoin software, then modify your '
+            'the Linux version of the Dash software, then modify your '
             'settings to point to where it was unpacked. ', QMessageBox.Ok)
          return
 
@@ -10865,7 +10865,7 @@ class DlgInstallLinux(ArmoryDialog):
          if not os.path.exists(installPath):
             os.makedirs(installPath)
       else:
-         title = 'Download Bitcoin software to...'
+         title = 'Download Dash software to...'
          initPath = self.main.settings.get('LastDirectory')
          if not OS_MACOSX:
             installPath = unicode(QFileDialog.getExistingDirectory(self, title, initPath))
@@ -10889,7 +10889,7 @@ class DlgInstallLinux(ArmoryDialog):
       if len(fileData) == 0 or dlg.dlVerifyFailed:
          QMessageBox.critical(self, 'Download Failed', \
             'The download failed.  Please visit www.bitcoin.org '
-            'to download and install Bitcoin-Qt manually.', QMessageBox.Ok)
+            'to download and install Dash-Qt manually.', QMessageBox.Ok)
          import webbrowser
          webbrowser.open('http://www.bitcoin.org/en/download')
          return
@@ -10956,11 +10956,11 @@ def tryInstallLinux(main):
    def doit():
       #print '\n'
       #print '***** Executing auto-install in linux...'
-      out, err = execAndWait('gksudo "apt-get remove -y bitcoin-qt bitcoind"', \
+      out, err = execAndWait('gksudo "apt-get remove -y dash-qt dashd"', \
                              timeout=20)
       out, err = execAndWait(('gksudo apt-add-repository ppa:bitcoin/bitcoin; '
                              'gksudo apt-get update; '
-                             'gksudo "apt-get install -y bitcoin-qt bitcoind"'), \
+                             'gksudo "apt-get install -y dash-qt dashd"'), \
                              timeout=120)
       try:
          TheSDM.setupSDM()
@@ -10974,12 +10974,12 @@ def tryInstallLinux(main):
          LOGINFO('***** Printing errors\n' + err)
          LOGINFO('***** End print errors\n')
          QMessageBox.warning(main, 'Unknown Error', \
-            'An error was reported while trying to install the Bitcoin '
+            'An error was reported while trying to install the Dash '
             'software.  The following information is given:<br><br>%s' % err, \
             QMessageBox.Ok)
          raise
 
-   DlgExecLongProcess(doit, 'Installing Bitcoin Software...', main, main).exec_()
+   DlgExecLongProcess(doit, 'Installing Dash Software...', main, main).exec_()
 
 
 ################################################################################
@@ -11272,7 +11272,7 @@ class DlgSimpleBackup(ArmoryDialog):
       self.wlt = wlt
 
       lblDescrTitle = QRichLabel(tr("""
-         <b>Protect Your Bitcoins -- Make a Wallet Backup!</b>"""))
+         <b>Protect Your Dash -- Make a Wallet Backup!</b>"""))
 
       lblDescr = QRichLabel(tr("""
          A failed hard-drive or forgotten passphrase will lead to
@@ -14681,7 +14681,7 @@ class DlgFactoryReset(ArmoryDialog):
          It is <i>strongly</i> recommended that you make backups of your
          wallets before continuing, though <b>wallet files will never be
          intentionally deleted!</b>  All Armory
-         wallet files, and the wallet.dat file used by Bitcoin-Qt/bitcoind
+         wallet files, and the wallet.dat file used by Dash-Qt/dashd
          should remain untouched in their current locations.  All Armory
          wallets will automatically be detected and loaded after the reset.
          <br><br>
@@ -14710,7 +14710,7 @@ class DlgFactoryReset(ArmoryDialog):
          <b>Also re-download the blockchain (most extreme)</b>"""))
       self.lblBitcoinDB = QRichLabel(tr("""
          This will delete settings, network data, Armory's databases,
-         <b>and</b> the Bitcoin software databases.  Bitcoin-Qt/bitcoind will
+         <b>and</b> the Dash software databases.  Dash-Qt/dashd will
          have to download the blockchain again.  Only use this if you
          suspect blockchain corruption, such as receiving StdOut/StdErr errors
          on the dashboard (8-72 hours depending on your connection)"""))
@@ -14807,7 +14807,7 @@ class DlgFactoryReset(ArmoryDialog):
          if self.chkSaveSettings.isChecked():
             msg = tr("""
                You are about to delete <b>all</b>
-               blockchain databases on your system.  The Bitcoin software will
+               blockchain databases on your system.  The Dash software will
                have to redownload of blockchain data over the peer-to-peer
                network again which can take from 8 to 72 hours depending on
                your system speed and connection.  <br><br><b>Are you absolutely
@@ -14815,7 +14815,7 @@ class DlgFactoryReset(ArmoryDialog):
          else:
             msg = tr("""
                You are about to delete your settings and delete <b>all</b>
-               blockchain databases on your system.  The Bitcoin software will
+               blockchain databases on your system.  The Dash software will
                have to redownload of blockchain data over the peer-to-peer
                network again which can take from 8 to 72 hours depending on
                your system speed and connection.  <br><br><b>Are you absolutely
@@ -14835,11 +14835,11 @@ class DlgFactoryReset(ArmoryDialog):
          if not self.main.settings.get('ManageSatoshi'):
             # Must have user shutdown Bitcoin sw now, and delete DBs now
             reply = MsgBoxCustom(MSGBOX.Warning, tr('Restart Armory'), tr("""
-               <b>Bitcoin-Qt (or bitcoind) must be closed to do the reset!</b>
-               Please close all Bitcoin software, <u><b>right now</b></u>,
+               <b>Dash-Qt (or dashd) must be closed to do the reset!</b>
+               Please close all Dash software, <u><b>right now</b></u>,
                before clicking "Continue".
                <br><br>
-               Armory will now close.  Please restart Bitcoin-Qt/bitcoind
+               Armory will now close.  Please restart Dash-Qt/dashd
                first and wait for it to finish synchronizing before restarting
                Armory."""), wCancel=True, yesStr="Continue")
 
@@ -14947,7 +14947,7 @@ class DlgBroadcastBlindTx(ArmoryDialog):
 
       lblDescr = QRichLabel(tr("""
          Copy a raw, hex-encoded transaction below to have Armory 
-         broadcast it to the Bitcoin network.  This function is 
+         broadcast it to the Dash network.  This function is 
          provided as a convenience to expert users, and carries 
          no guarantees of usefulness.
          <br><br>
@@ -14956,11 +14956,11 @@ class DlgBroadcastBlindTx(ArmoryDialog):
          <ul>
             <li>The transaction will be "broadcast" by sending it
                 to the connected Bitcon Core instance which will
-                forward it to the rest of the Bitcoin network.  
+                forward it to the rest of the Dash network.  
                 However, if the transaction is non-standard or 
-                does not satisfy standard fee rules, Bitcoin Core 
+                does not satisfy standard fee rules, Dash Core 
                 <u>will</u> drop it and it 
-                will never be seen by the Bitcoin network. 
+                will never be seen by the Dash network. 
             </li>
             <li>There will be no feedback as to whether the
                 transaction succeeded.  You will have to verify the
@@ -15055,11 +15055,11 @@ class DlgBroadcastBlindTx(ArmoryDialog):
          dispToExplorer = 'https://blockchain.info/search/%s...' % hexhash[:16]
 
       QMessageBox.information(self, tr("Broadcast!"), tr("""
-         Your transaction was successfully sent to the local Bitcoin
+         Your transaction was successfully sent to the local Dash
          Core instance, though there is no guarantees that it was
          forwarded to the rest of the network.   On testnet, just about
          every valid transaction will successfully propagate.  On the
-         main Bitcoin network, this will fail unless it was a standard
+         main Dash network, this will fail unless it was a standard
          transaction type.
 
          The transaction 
