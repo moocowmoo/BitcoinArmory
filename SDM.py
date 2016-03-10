@@ -427,7 +427,7 @@ class SatoshiDaemonManager(object):
          searchPaths.extend([os.path.join(p, 'Bitcoin') for p in possBaseDir])
 
          for p in searchPaths:
-            testPath = os.path.join(p, 'bitcoind.exe')
+            testPath = os.path.join(p, 'dashd.exe')
             if os.path.exists(testPath):
                self.foundExe.append(testPath)
 
@@ -440,16 +440,17 @@ class SatoshiDaemonManager(object):
 
          searchPaths.extend(['/usr/lib/bitcoin/'])
          searchPaths.extend(os.getenv("PATH").split(':'))
+         searchPaths.extend([os.path.join(os.getenv("HOME"), '.dash')])
 
          for p in searchPaths:
-            testPath = os.path.join(p, 'bitcoind')
+            testPath = os.path.join(p, 'dashd')
             if os.path.exists(testPath):
                self.foundExe.append(testPath)
 
          try:
-            locs = subprocess_check_output(['whereis','bitcoind']).split()
+            locs = subprocess_check_output(['whereis','dashd']).split()
             if len(locs)>1:
-               locs = filter(lambda x: os.path.basename(x)=='bitcoind', locs)
+               locs = filter(lambda x: os.path.basename(x)=='dashd', locs)
                LOGINFO('"whereis" returned: %s', str(locs))
                self.foundExe.extend(locs)
          except:
@@ -494,7 +495,7 @@ class SatoshiDaemonManager(object):
    #############################################################################
    def readBitcoinConf(self, makeIfDNE=False):
       LOGINFO('Reading bitcoin.conf file')
-      bitconf = os.path.join(self.satoshiRoot, 'bitcoin.conf')
+      bitconf = os.path.join(self.satoshiRoot, 'dash.conf')
       if not os.path.exists(bitconf):
          if not makeIfDNE:
             raise self.BitcoinDotConfError, 'Could not find bitcoin.conf'

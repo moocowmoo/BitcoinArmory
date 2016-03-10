@@ -4959,8 +4959,8 @@ class ArmoryMainWindow(QMainWindow):
    def closeExistingBitcoin(self):
       for proc in psutil.process_iter():
          try:
-            if proc.name().lower() in ['bitcoind.exe','bitcoin-qt.exe',\
-                                        'bitcoind','bitcoin-qt']:
+            if proc.name().lower() in ['dashd.exe','dash-qt.exe',\
+                                        'dashd','dash-qt']:
                killProcess(proc.pid)
                time.sleep(2)
                return
@@ -7092,7 +7092,7 @@ def checkForAlreadyOpenError():
    armoryExists = []
    bitcoindExists = []
    aexe = os.path.basename(sys.argv[0])
-   bexe = 'bitcoind.exe' if OS_WINDOWS else 'bitcoind'
+   bexe = 'dashd.exe' if OS_WINDOWS else 'dashd'
    for proc in psutil.process_iter():
       if hasattr(proc, '_name'):
          pname = str(proc._name)
