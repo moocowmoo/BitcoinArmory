@@ -690,9 +690,9 @@ uint32_t BlockDataViewer::getClosestBlockHeightForTime(uint32_t timestamp)
    if (timestamp < genBlock.getTimestamp())
       return 0;
 
-   //get time diff and divide by average time per block (600 sec for Bitcoin)
+   //get time diff and divide by average time per block (160 sec for Dash)
    uint32_t diff = timestamp - genBlock.getTimestamp();
-   int32_t blockHint = diff/600;
+   int32_t blockHint = diff/160;
 
    //look for a block in the hint vicinity with a timestamp lower than ours
    while (blockHint > 0)
@@ -701,7 +701,7 @@ uint32_t BlockDataViewer::getClosestBlockHeightForTime(uint32_t timestamp)
       if (block.getTimestamp() < timestamp)
          break;
 
-      blockHint -= 1000;
+      blockHint -= 256;
    }
 
    //another sanity check
@@ -711,9 +711,9 @@ uint32_t BlockDataViewer::getClosestBlockHeightForTime(uint32_t timestamp)
    for (uint32_t id = blockHint; id < blockchain().top().getBlockHeight() - 1; id++)
    {
       //not looking for a really precise block, 
-      //anything within the an hour of the timestamp is enough
+      //anything within the an 15 minutes of the timestamp is enough
       auto& block = blockchain().getHeaderByHeight(id);
-      if (block.getTimestamp() + 3600 > timestamp)
+      if (block.getTimestamp() + 900 > timestamp)
          return block.getBlockHeight();
    }
 

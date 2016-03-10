@@ -330,6 +330,8 @@ BLOCKCHAINS = {}
 BLOCKCHAINS['\xf9\xbe\xb4\xd9'] = "Main Network"
 BLOCKCHAINS['\xfa\xbf\xb5\xda'] = "Old Test Network"
 BLOCKCHAINS['\x0b\x11\x09\x07'] = "Test Network (testnet3)"
+BLOCKCHAINS['\xbf\x0c\x6b\xbd'] = "Dash Main Network"
+BLOCKCHAINS['\xce\xe2\xca\xff'] = "Dash Test Network (testnet3)"
 
 NETWORKS = {}
 NETWORKS['\x00'] = "Main Network"
@@ -337,6 +339,10 @@ NETWORKS['\x05'] = "Main Network"
 NETWORKS['\x6f'] = "Test Network"
 NETWORKS['\xc4'] = "Test Network"
 NETWORKS['\x34'] = "Namecoin Network"
+NETWORKS['\x4c'] = "Dash Main Network"
+NETWORKS['\x10'] = "Dash Main Network"
+NETWORKS['\x8b'] = "Dash Test Network"
+NETWORKS['\x13'] = "Dash Test Network"
 
 # We disable wallet checks on ARM for the sake of resources (unless forced)
 DO_WALLET_CHECK = CLI_OPTIONS.forceWalletCheck or \
@@ -468,17 +474,17 @@ if not os.path.exists(ARMORY_DB_DIR):
 ##### MAIN NETWORK IS DEFAULT #####
 if not USE_TESTNET:
    # TODO:  The testnet genesis tx hash can't be the same...?
-   BITCOIN_PORT = 8333
-   BITCOIN_RPC_PORT = 8332
+   BITCOIN_PORT = 9999
+   BITCOIN_RPC_PORT = 9998
    ARMORY_RPC_PORT = 8225
-   MAGIC_BYTES = '\xf9\xbe\xb4\xd9'
-   GENESIS_BLOCK_HASH_HEX  = '6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000'
-   GENESIS_BLOCK_HASH      = 'o\xe2\x8c\n\xb6\xf1\xb3r\xc1\xa6\xa2F\xaec\xf7O\x93\x1e\x83e\xe1Z\x08\x9ch\xd6\x19\x00\x00\x00\x00\x00'
-   GENESIS_TX_HASH_HEX     = '3ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a'
-   GENESIS_TX_HASH         = ';\xa3\xed\xfdz{\x12\xb2z\xc7,>gv\x8fa\x7f\xc8\x1b\xc3\x88\x8aQ2:\x9f\xb8\xaaK\x1e^J'
-   ADDRBYTE = '\x00'
-   P2SHBYTE = '\x05'
-   PRIVKEYBYTE = '\x80'
+   MAGIC_BYTES = '\xbf\x0c\x6b\xbd'
+   GENESIS_BLOCK_HASH_HEX  = 'b67a40f3cd5804437a108f105533739c37e6229bc1adcab385140b59fd0f0000'
+   GENESIS_BLOCK_HASH      = '\xb6z@\xf3\xcdX\x04Cz\x10\x8f\x10U3s\x9c7\xe6"\x9b\xc1\xad\xca\xb3\x85\x14\x0bY\xfd\x0f\x00\x00'
+   GENESIS_TX_HASH_HEX     = 'c762a6567f3cc092f0684bb62b7e00a84890b990f07cc71a6bb58d64b98e02e0'
+   GENESIS_TX_HASH         = '\xc7b\xa6V\x7f<\xc0\x92\xf0hK\xb6+~\x00\xa8H\x90\xb9\x90\xf0|\xc7\x1ak\xb5\x8dd\xb9\x8e\x02\xe0'
+   ADDRBYTE = '\x4c'
+   P2SHBYTE = '\x10'
+   PRIVKEYBYTE = '\xcc'
 
    # This will usually just be used in the GUI to make links for the user
    BLOCKEXPLORE_NAME     = 'blockchain.info'
@@ -493,9 +499,9 @@ else:
    GENESIS_BLOCK_HASH      = 'CI\x7f\xd7\xf8&\x95q\x08\xf4\xa3\x0f\xd9\xce\xc3\xae\xbay\x97 \x84\xe9\x0e\xad\x01\xea3\t\x00\x00\x00\x00'
    GENESIS_TX_HASH_HEX     = '3ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a'
    GENESIS_TX_HASH         = ';\xa3\xed\xfdz{\x12\xb2z\xc7,>gv\x8fa\x7f\xc8\x1b\xc3\x88\x8aQ2:\x9f\xb8\xaaK\x1e^J'
-   ADDRBYTE = '\x6f'
-   P2SHBYTE = '\xc4'
-   PRIVKEYBYTE = '\xef'
+   ADDRBYTE = '\x8b'
+   P2SHBYTE = '\x10'
+   PRIVKEYBYTE = '\xcc'
 
    # 
    BLOCKEXPLORE_NAME     = 'blockexplorer.com'
@@ -1438,7 +1444,7 @@ def formatWithPlurals(txt, replList=None, pluralList=None):
 
 ################################################################################
 def getAddrByte():
-   return '\x6f' if USE_TESTNET else '\x00'
+   return '\x8b' if USE_TESTNET else '\x4c'
 
 ################################################################################
 # Convert a 20-byte hash to a "pay-to-public-key-hash" script to be inserted

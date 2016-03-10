@@ -5180,7 +5180,7 @@ class ArmoryMainWindow(QMainWindow):
 
          # Ten min/block is pretty accurate, even from genesis (about 1% slow)
          # And it gets better as we sync past the reference block above
-         self.approxMaxBlock = refBlock + int((RightNow() - refTime) / (10*MINUTE))
+         self.approxMaxBlock = refBlock + int((RightNow() - refTime) / (2.5*MINUTE))
          self.approxBlkLeft  = self.approxMaxBlock - lastBlkNum
          self.approxPctSoFar = self.getPercentageFinished(self.approxMaxBlock, \
                                                                   lastBlkNum)

@@ -72,7 +72,7 @@ class ArmoryClient(Protocol):
 
       services = '0'*16
       msgVersion = PayloadVersion()
-      msgVersion.version  = 40000   # TODO: this is what my Satoshi client says
+      msgVersion.version  = 70103   # TODO: this is what my Satoshi client says
       msgVersion.services = services
       msgVersion.time     = long(RightNow())
       msgVersion.addrRecv = PyNetAddress(0, services, addrTo,   portTo  )

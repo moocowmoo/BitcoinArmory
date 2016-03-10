@@ -235,7 +235,7 @@ public:
       // but we never find the genesis block, because
       // it always appears in Blockchain even if unloaded, and
       // we need to load it
-      if (foundAtPosition.first == 0 && foundAtPosition.second==293)
+      if (foundAtPosition.first == 0 && foundAtPosition.second==314)
          return { 0, 0 };
       if (returnedOffset != UINT64_MAX)
          foundAtPosition.second = returnedOffset;
@@ -1699,11 +1699,11 @@ void BlockDataManager_LevelDB::loadBlockHeadersFromDB(const ProgressCallback &pr
    
    const unsigned howManyBlocks = [&] () -> unsigned
    {
-      const time_t btcEpoch = 1230963300; // genesis block ts
+      const time_t btcEpoch = 1390103681; // genesis block ts
       const time_t now = time(nullptr);
       
       // every ten minutes we get a block, how many blocks exist?
-      const unsigned blocks = (now-btcEpoch)/60/10;
+      const unsigned blocks = (now-btcEpoch)/60/2.5;
       return blocks;
    }();
    
