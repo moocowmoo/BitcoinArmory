@@ -428,7 +428,7 @@ def decvi(d):
    return '\xff'+decbin(d,8,True)
 
 def format_msg_to_sign(msg):
-   return "\x18Bitcoin Signed Message:\n"+decvi(len(msg))+msg
+   return "\x19DarkCoin Signed Message:\n"+decvi(len(msg))+msg
 
 def sqrt_mod(a, p):
    return pow(a, (p+1)/4, p)
